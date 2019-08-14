@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.TabItem;
 
 import swing2swt.layout.BorderLayout;
 
-public class Test {
+public class Main {
 
 	protected Shell shlVirtualTrainer;
 
@@ -22,7 +22,7 @@ public class Test {
 	 */
 	public static void main(String[] args) {
 		try {
-			Test window = new Test();
+			Main window = new Main();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,47 +67,54 @@ public class Test {
 		TabItem newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		newWorkoutTab.setText("New workout");
 
-		Composite composite = new Composite(tabFolder, SWT.NONE);
-		newWorkoutTab.setControl(composite);
-		composite.setLayout(null);
+		Composite newWorkoutComposite = new Composite(tabFolder, SWT.NONE);
+		newWorkoutTab.setControl(newWorkoutComposite);
+		newWorkoutComposite.setLayout(null);
 
-		Label newWorkoutIntroText = new Label(composite, SWT.NONE);
+		Label newWorkoutIntroText = new Label(newWorkoutComposite, SWT.NONE);
 		newWorkoutIntroText.setAlignment(SWT.CENTER);
 		newWorkoutIntroText.setBounds(31, 10, 720, 15);
 		newWorkoutIntroText.setText(
 				"Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.");
 
-		Label fitnessGoalsLabel = new Label(composite, SWT.NONE);
-		fitnessGoalsLabel.setBounds(31, 71, 81, 15);
-		fitnessGoalsLabel.setText("Fitness goals:");
+		Composite workoutDurationComposite = new Composite(newWorkoutComposite, SWT.NONE);
+		workoutDurationComposite.setBounds(31, 92, 346, 16);
 
-		Button btnBuildMuscle = new Button(composite, SWT.CHECK);
-		btnBuildMuscle.setBounds(141, 70, 93, 16);
-		btnBuildMuscle.setText("Build muscle");
-
-		Button btnBurnFat = new Button(composite, SWT.CHECK);
-		btnBurnFat.setBounds(251, 70, 93, 16);
-		btnBurnFat.setText("Burn fat");
-
-		Label lblWorkoutDuration = new Label(composite, SWT.NONE);
-		lblWorkoutDuration.setBounds(31, 92, 104, 15);
-		lblWorkoutDuration.setText("Workout duration:");
-
-		Button btnHalfHr = new Button(composite, SWT.RADIO);
-		btnHalfHr.setBounds(141, 92, 58, 16);
+		Button btnHalfHr = new Button(workoutDurationComposite, SWT.RADIO);
+		btnHalfHr.setLocation(117, 0);
+		btnHalfHr.setSize(58, 16);
 		btnHalfHr.setText(".5 hr");
 
-		Button btnHr = new Button(composite, SWT.RADIO);
-		btnHr.setBounds(206, 92, 42, 16);
+		Button btnHr = new Button(workoutDurationComposite, SWT.RADIO);
+		btnHr.setBounds(168, 0, 42, 16);
 		btnHr.setText("1 hr");
 
-		Button btnHrAndHalf = new Button(composite, SWT.RADIO);
-		btnHrAndHalf.setBounds(254, 92, 65, 16);
+		Button btnHrAndHalf = new Button(workoutDurationComposite, SWT.RADIO);
+		btnHrAndHalf.setBounds(216, 0, 65, 16);
 		btnHrAndHalf.setText("1.5 hrs");
 
-		Button btnTwoHrs = new Button(composite, SWT.RADIO);
-		btnTwoHrs.setBounds(325, 92, 90, 16);
+		Button btnTwoHrs = new Button(workoutDurationComposite, SWT.RADIO);
+		btnTwoHrs.setBounds(279, 0, 90, 16);
 		btnTwoHrs.setText("2+ hrs");
+
+		Label lblWorkoutDuration = new Label(workoutDurationComposite, SWT.NONE);
+		lblWorkoutDuration.setBounds(0, 1, 104, 15);
+		lblWorkoutDuration.setText("Workout duration:");
+
+		Composite fitnessGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
+		fitnessGoalsComposite.setBounds(31, 70, 313, 16);
+
+		Label fitnessGoalsLabel = new Label(fitnessGoalsComposite, SWT.NONE);
+		fitnessGoalsLabel.setBounds(0, 0, 81, 15);
+		fitnessGoalsLabel.setText("Fitness goals:");
+
+		Button btnBuildMuscle = new Button(fitnessGoalsComposite, SWT.CHECK);
+		btnBuildMuscle.setBounds(108, -1, 93, 16);
+		btnBuildMuscle.setText("Build muscle");
+
+		Button btnBurnFat = new Button(fitnessGoalsComposite, SWT.CHECK);
+		btnBurnFat.setBounds(207, -1, 93, 16);
+		btnBurnFat.setText("Burn fat");
 
 	}
 }
