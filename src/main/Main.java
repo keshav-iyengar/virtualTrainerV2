@@ -1,6 +1,13 @@
 package main;
 
+import static constants.Constants.halfHrKey;
+import static constants.Constants.workoutDurationKey;
+
+import java.util.HashMap;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -12,6 +19,8 @@ import org.eclipse.swt.widgets.TabItem;
 import swing2swt.layout.BorderLayout;
 
 public class Main {
+
+	HashMap<String, HashMap<String, Boolean>> selectedValues = new HashMap<String, HashMap<String, Boolean>>();
 
 	protected Shell shlVirtualTrainer;
 
@@ -67,6 +76,8 @@ public class Main {
 		TabItem newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		newWorkoutTab.setText("New workout");
 
+		// NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder);
+
 		Composite newWorkoutComposite = new Composite(tabFolder, SWT.NONE);
 		newWorkoutTab.setControl(newWorkoutComposite);
 		newWorkoutComposite.setLayout(null);
@@ -79,24 +90,52 @@ public class Main {
 
 		Composite workoutDurationComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		workoutDurationComposite.setBounds(31, 92, 346, 16);
-
+//
 		Button btnHalfHr = new Button(workoutDurationComposite, SWT.RADIO);
 		btnHalfHr.setLocation(117, 0);
-		btnHalfHr.setSize(58, 16);
+		btnHalfHr.setSize(45, 16);
 		btnHalfHr.setText(".5 hr");
 
+		btnHalfHr.addSelectionListener(new SelectionListener() {
+			@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
+			public void widgetSelected(SelectionEvent event) {
+				if (btnHalfHr.getSelection()) {
+					selectedValues.put(workoutDurationKey, new HashMap() {
+						{
+							put(halfHrKey, true);
+						}
+					});
+					System.out.println(selectedValues.get(workoutDurationKey).get(halfHrKey));
+				} else {
+					selectedValues.put(workoutDurationKey, new HashMap() {
+						{
+							put(halfHrKey, false);
+						}
+					});
+					System.out.println(selectedValues.get(workoutDurationKey).get(".5 hr"));
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+//
 		Button btnHr = new Button(workoutDurationComposite, SWT.RADIO);
 		btnHr.setBounds(168, 0, 42, 16);
 		btnHr.setText("1 hr");
-
+//
 		Button btnHrAndHalf = new Button(workoutDurationComposite, SWT.RADIO);
-		btnHrAndHalf.setBounds(216, 0, 65, 16);
+		btnHrAndHalf.setBounds(216, 0, 55, 16);
 		btnHrAndHalf.setText("1.5 hrs");
-
+//
 		Button btnTwoHrs = new Button(workoutDurationComposite, SWT.RADIO);
 		btnTwoHrs.setBounds(279, 0, 90, 16);
 		btnTwoHrs.setText("2+ hrs");
-
+//
 		Label lblWorkoutDuration = new Label(workoutDurationComposite, SWT.NONE);
 		lblWorkoutDuration.setBounds(0, 1, 104, 15);
 		lblWorkoutDuration.setText("Workout duration:");
