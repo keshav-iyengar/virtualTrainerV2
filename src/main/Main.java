@@ -5,19 +5,12 @@ import static constants.Constants.buildMassKey;
 import static constants.Constants.burnFatKey;
 import static constants.Constants.gainEnduranceKey;
 import static constants.Constants.gainStrengthKey;
-import static constants.Constants.halfHrKey;
-import static constants.Constants.hrAndHalfKey;
-import static constants.Constants.hrKey;
 import static constants.Constants.naKey;
 import static constants.Constants.performanceGoalsKey;
-import static constants.Constants.twoHrKey;
-import static constants.Constants.workoutDurationKey;
 
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -95,58 +88,7 @@ public class Main {
 		Label newWorkoutIntroText = new Label(newWorkoutComposite, SWT.NONE);
 		newWorkoutIntroText.setAlignment(SWT.CENTER);
 		newWorkoutIntroText.setBounds(31, 10, 720, 15);
-		newWorkoutIntroText.setText(
-				"Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.");
-
-		Composite workoutDurationComposite = new Composite(newWorkoutComposite, SWT.NONE);
-		workoutDurationComposite.setBounds(31, 114, 346, 16);
-
-		Label lblWorkoutDuration = new Label(workoutDurationComposite, SWT.NONE);
-		lblWorkoutDuration.setBounds(0, 1, 111, 15);
-		lblWorkoutDuration.setText(workoutDurationKey);
-
-		Button btnHalfHr = new Button(workoutDurationComposite, SWT.RADIO);
-		btnHalfHr.setBounds(117, 0, 45, 16);
-		btnHalfHr.setText(halfHrKey);
-
-		btnHalfHr.addSelectionListener(new SelectionListener() {
-			@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
-			public void widgetSelected(SelectionEvent event) {
-				if(btnHalfHr.getSelection()) {
-					selectedValues.put(workoutDurationKey, new HashMap() {
-						{
-							put(halfHrKey, true);
-						}
-					});
-					System.out.println(selectedValues.get(workoutDurationKey).get(halfHrKey));
-				} else {
-					selectedValues.put(workoutDurationKey, new HashMap() {
-						{
-							put(halfHrKey, false);
-						}
-					});
-					System.out.println(selectedValues.get(workoutDurationKey).get(halfHrKey));
-				}
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-
-			}
-
-		});
-
-		Button btnHr = new Button(workoutDurationComposite, SWT.RADIO);
-		btnHr.setBounds(168, 0, 42, 16);
-		btnHr.setText(hrKey);
-
-		Button btnHrAndHalf = new Button(workoutDurationComposite, SWT.RADIO);
-		btnHrAndHalf.setBounds(216, 0, 55, 16);
-		btnHrAndHalf.setText(hrAndHalfKey);
-
-		Button btnTwoHrs = new Button(workoutDurationComposite, SWT.RADIO);
-		btnTwoHrs.setBounds(279, 0, 90, 16);
-		btnTwoHrs.setText(twoHrKey);
+		newWorkoutIntroText.setText("Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.");
 
 		Composite aestheticGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		aestheticGoalsComposite.setBounds(31, 70, 375, 16);
