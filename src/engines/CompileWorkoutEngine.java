@@ -3,8 +3,10 @@ package engines;
 import static constants.Constants.aestheticGoalsKey;
 import static constants.Constants.buildMassKey;
 import static constants.Constants.burnFatKey;
+import static constants.Constants.currentWeightKey;
 import static constants.Constants.gainEnduranceKey;
 import static constants.Constants.gainStrengthKey;
+import static constants.Constants.goalWeightKey;
 import static constants.Constants.naKey;
 import static constants.Constants.performanceGoalsKey;
 
@@ -16,6 +18,8 @@ import java.util.HashMap;
 public class CompileWorkoutEngine {
 
 	HashMap<String, HashMap<String, Boolean>> selectedValues;
+	HashMap<String, Double> weightData;
+	double age;
 
 	// lose weight/fat
 	// gain weight/mass
@@ -26,9 +30,11 @@ public class CompileWorkoutEngine {
 	// 1 2 3 4 5 6 7 8 9 10
 	// LW/GE LW/GS;GW/GE GW/GS
 
-	public CompileWorkoutEngine(HashMap<String, HashMap<String, Boolean>> values) {
+	public CompileWorkoutEngine(HashMap<String, HashMap<String, Boolean>> values, HashMap<String, Double> wtData, double a) {
 
-		selectedValues = values;
+		this.selectedValues = values;
+		this.weightData = wtData;
+		this.age = a;
 
 	}
 
@@ -49,7 +55,7 @@ public class CompileWorkoutEngine {
 		};
 		int validResponseCounter = 0; //no selections == invalid form
 
-		for(String key : selectedValues.keySet()) {
+		for(String key : this.selectedValues.keySet()) {
 
 			for(String k : selectedValues.get(key).keySet()) {
 
@@ -64,7 +70,7 @@ public class CompileWorkoutEngine {
 						}
 					case burnFatKey:
 						if(selection == true) {
-							aestheticIndex = 1;
+							aestheticIndex = 0;
 							validResponseCounter++;
 						}
 					case gainStrengthKey:
@@ -74,7 +80,7 @@ public class CompileWorkoutEngine {
 						}
 					case gainEnduranceKey:
 						if(selection == true) {
-							performanceIndex = 1;
+							performanceIndex = 0;
 							validResponseCounter++;
 						}
 					case naKey:
@@ -86,6 +92,8 @@ public class CompileWorkoutEngine {
 							naSelections.put(performanceGoalsKey, true);
 							validResponseCounter++;
 						}
+					default:
+						return -1;
 
 				}
 
@@ -102,6 +110,40 @@ public class CompileWorkoutEngine {
 				else return (aestheticIndex + performanceIndex) / 2;
 			}
 		} else return -1;
+
+	}
+
+	public int getWeightGoalsIndex() {
+
+		double currentWeight = this.weightData.get(currentWeightKey);
+		double goalWeight = this.weightData.get(goalWeightKey);
+
+		double difference = goalWeight - currentWeight;
+		double netDiff = Math.abs(difference);
+
+		if(difference < 0) { //lose weight
+
+			if(netDiff <= 5) return 4;
+			else if(netDiff <= 10) return 3;
+			else if(netDiff <= 20) return 2;
+			else return 0;
+
+		} else if(difference > 0) { //gain weight
+
+			if(netDiff <= 5) return 6;
+			else if(netDiff <= 10) return 7;
+			else if(netDiff <= 20) return 8;
+			else return 10;
+
+		} else return 5; //maintain weight
+
+	}
+
+	public int getAgeIndex() {
+
+		if(this.age <= 30) return 3;
+		else if(this.age <= 50) return 2;
+		else return 1;
 
 	}
 
