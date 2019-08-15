@@ -1,6 +1,16 @@
 package main;
 
+import static constants.Constants.aestheticGoalsKey;
+import static constants.Constants.buildMassKey;
+import static constants.Constants.burnFatKey;
+import static constants.Constants.gainEnduranceKey;
+import static constants.Constants.gainStrengthKey;
 import static constants.Constants.halfHrKey;
+import static constants.Constants.hrAndHalfKey;
+import static constants.Constants.hrKey;
+import static constants.Constants.naKey;
+import static constants.Constants.performanceGoalsKey;
+import static constants.Constants.twoHrKey;
 import static constants.Constants.workoutDurationKey;
 
 import java.util.HashMap;
@@ -33,7 +43,7 @@ public class Main {
 		try {
 			Main window = new Main();
 			window.open();
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -46,8 +56,8 @@ public class Main {
 		createContents();
 		shlVirtualTrainer.open();
 		shlVirtualTrainer.layout();
-		while (!shlVirtualTrainer.isDisposed()) {
-			if (!display.readAndDispatch()) {
+		while(!shlVirtualTrainer.isDisposed()) {
+			if(!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
@@ -89,17 +99,20 @@ public class Main {
 				"Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.");
 
 		Composite workoutDurationComposite = new Composite(newWorkoutComposite, SWT.NONE);
-		workoutDurationComposite.setBounds(31, 92, 346, 16);
-//
+		workoutDurationComposite.setBounds(31, 114, 346, 16);
+
+		Label lblWorkoutDuration = new Label(workoutDurationComposite, SWT.NONE);
+		lblWorkoutDuration.setBounds(0, 1, 111, 15);
+		lblWorkoutDuration.setText(workoutDurationKey);
+
 		Button btnHalfHr = new Button(workoutDurationComposite, SWT.RADIO);
-		btnHalfHr.setLocation(117, 0);
-		btnHalfHr.setSize(45, 16);
-		btnHalfHr.setText(".5 hr");
+		btnHalfHr.setBounds(117, 0, 45, 16);
+		btnHalfHr.setText(halfHrKey);
 
 		btnHalfHr.addSelectionListener(new SelectionListener() {
 			@SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 			public void widgetSelected(SelectionEvent event) {
-				if (btnHalfHr.getSelection()) {
+				if(btnHalfHr.getSelection()) {
 					selectedValues.put(workoutDurationKey, new HashMap() {
 						{
 							put(halfHrKey, true);
@@ -112,48 +125,68 @@ public class Main {
 							put(halfHrKey, false);
 						}
 					});
-					System.out.println(selectedValues.get(workoutDurationKey).get(".5 hr"));
+					System.out.println(selectedValues.get(workoutDurationKey).get(halfHrKey));
 				}
 			}
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
 		});
-//
+
 		Button btnHr = new Button(workoutDurationComposite, SWT.RADIO);
 		btnHr.setBounds(168, 0, 42, 16);
-		btnHr.setText("1 hr");
-//
+		btnHr.setText(hrKey);
+
 		Button btnHrAndHalf = new Button(workoutDurationComposite, SWT.RADIO);
 		btnHrAndHalf.setBounds(216, 0, 55, 16);
-		btnHrAndHalf.setText("1.5 hrs");
-//
+		btnHrAndHalf.setText(hrAndHalfKey);
+
 		Button btnTwoHrs = new Button(workoutDurationComposite, SWT.RADIO);
 		btnTwoHrs.setBounds(279, 0, 90, 16);
-		btnTwoHrs.setText("2+ hrs");
-//
-		Label lblWorkoutDuration = new Label(workoutDurationComposite, SWT.NONE);
-		lblWorkoutDuration.setBounds(0, 1, 104, 15);
-		lblWorkoutDuration.setText("Workout duration:");
+		btnTwoHrs.setText(twoHrKey);
 
-		Composite fitnessGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
-		fitnessGoalsComposite.setBounds(31, 70, 313, 16);
+		Composite aestheticGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
+		aestheticGoalsComposite.setBounds(31, 70, 375, 16);
 
-		Label fitnessGoalsLabel = new Label(fitnessGoalsComposite, SWT.NONE);
-		fitnessGoalsLabel.setBounds(0, 0, 81, 15);
-		fitnessGoalsLabel.setText("Fitness goals:");
+		Label aestheticGoalsLabel = new Label(aestheticGoalsComposite, SWT.NONE);
+		aestheticGoalsLabel.setBounds(0, 0, 93, 15);
+		aestheticGoalsLabel.setText(aestheticGoalsKey);
 
-		Button btnBuildMuscle = new Button(fitnessGoalsComposite, SWT.CHECK);
+		Button btnBuildMuscle = new Button(aestheticGoalsComposite, SWT.RADIO);
 		btnBuildMuscle.setBounds(108, -1, 93, 16);
-		btnBuildMuscle.setText("Build muscle");
+		btnBuildMuscle.setText(buildMassKey);
 
-		Button btnBurnFat = new Button(fitnessGoalsComposite, SWT.CHECK);
-		btnBurnFat.setBounds(207, -1, 93, 16);
-		btnBurnFat.setText("Burn fat");
+		Button btnBurnFat = new Button(aestheticGoalsComposite, SWT.RADIO);
+		btnBurnFat.setBounds(207, -1, 69, 16);
+		btnBurnFat.setText(burnFatKey);
+
+		Button btnNa = new Button(aestheticGoalsComposite, SWT.RADIO);
+		btnNa.setLocation(282, -1);
+		btnNa.setSize(83, 16);
+		btnNa.setText(naKey);
+
+		Composite performanceGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
+		performanceGoalsComposite.setBounds(31, 92, 391, 16);
+
+		Label lblPerformanceGoals = new Label(performanceGoalsComposite, SWT.NONE);
+		lblPerformanceGoals.setBounds(0, 0, 102, 15);
+		lblPerformanceGoals.setText(performanceGoalsKey);
+
+		Button btnGainStrength = new Button(performanceGoalsComposite, SWT.RADIO);
+		btnGainStrength.setBounds(108, -1, 92, 16);
+		btnGainStrength.setText(gainStrengthKey);
+
+		Button btnGainEndurance = new Button(performanceGoalsComposite, SWT.RADIO);
+		btnGainEndurance.setBounds(206, -1, 109, 16);
+		btnGainEndurance.setText(gainEnduranceKey);
+
+		Button btnNa_1 = new Button(performanceGoalsComposite, SWT.RADIO);
+		btnNa_1.setLocation(321, -1);
+		btnNa_1.setSize(59, 16);
+		btnNa_1.setText("N/A");
 
 	}
 }

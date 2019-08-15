@@ -29,7 +29,11 @@ public class CompileWorkoutEngine {
 
 	}
 
-	public double getScore() {
+	/*
+	 * Calculate the user's fitness index by averaging aesthetic and performance
+	 * goals.
+	 */
+	public double getFitnessIndex() {
 
 		double aestheticScore = 0;
 		double performanceScore = 0;
@@ -46,18 +50,19 @@ public class CompileWorkoutEngine {
 					case buildMassKey:
 						if(selection == true) aestheticScore = 10;
 					case burnFatKey:
-						if(selection == true) aestheticScore = 0;
+						if(selection == true) aestheticScore = 1;
 					case gainStrengthKey:
 						if(selection == true) performanceScore = 10;
 					case gainEnduranceKey:
-						if(selection == true) performanceScore = 0;
+						if(selection == true) performanceScore = 1;
 
 				}
 
 			}
 
 		}
-		return aestheticScore + performanceScore / 2;
+
+		return (aestheticScore + performanceScore) / 2;
 
 	}
 
