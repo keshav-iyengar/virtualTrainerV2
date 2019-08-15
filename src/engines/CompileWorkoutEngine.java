@@ -1,9 +1,12 @@
 package engines;
 
+import static constants.Constants.aestheticGoalsKey;
 import static constants.Constants.buildMassKey;
 import static constants.Constants.burnFatKey;
 import static constants.Constants.gainEnduranceKey;
 import static constants.Constants.gainStrengthKey;
+import static constants.Constants.naKey;
+import static constants.Constants.performanceGoalsKey;
 
 import java.util.HashMap;
 
@@ -35,9 +38,16 @@ public class CompileWorkoutEngine {
 	 */
 	public double getFitnessIndex() {
 
-		double aestheticScore = 0;
-		double performanceScore = 0;
+		double aestheticIndex = 0;
+		double performanceIndex = 0;
 		boolean selection; // user's responses
+		HashMap<String, Boolean> naSelections = new HashMap<String, Boolean>() {
+			{
+				put(aestheticGoalsKey, false);
+				put(performanceGoalsKey, false);
+			}
+		};
+		int validResponseCounter = 0; //no selections == invalid form
 
 		for(String key : selectedValues.keySet()) {
 
@@ -48,13 +58,34 @@ public class CompileWorkoutEngine {
 				switch (k) {
 
 					case buildMassKey:
-						if(selection == true) aestheticScore = 10;
+						if(selection == true) {
+							aestheticIndex = 10;
+							validResponseCounter++;
+						}
 					case burnFatKey:
-						if(selection == true) aestheticScore = 1;
+						if(selection == true) {
+							aestheticIndex = 1;
+							validResponseCounter++;
+						}
 					case gainStrengthKey:
-						if(selection == true) performanceScore = 10;
+						if(selection == true) {
+							performanceIndex = 10;
+							validResponseCounter++;
+						}
 					case gainEnduranceKey:
-						if(selection == true) performanceScore = 1;
+						if(selection == true) {
+							performanceIndex = 1;
+							validResponseCounter++;
+						}
+					case naKey:
+						if(selection == true && key.equals(aestheticGoalsKey)) {
+							naSelections.put(aestheticGoalsKey, true);
+							validResponseCounter++;
+						}
+						if(selection == true && key.equals(performanceGoalsKey)) {
+							naSelections.put(performanceGoalsKey, true);
+							validResponseCounter++;
+						}
 
 				}
 
@@ -62,7 +93,15 @@ public class CompileWorkoutEngine {
 
 		}
 
-		return (aestheticScore + performanceScore) / 2;
+		if(validResponseCounter == 2) {
+			if(naSelections.get(aestheticGoalsKey).equals(true)) {
+				if(naSelections.get(performanceGoalsKey).equals(true)) return -1;//error - 2 na's chosen or insufficient responses
+				else return performanceIndex;
+			} else {
+				if(naSelections.get(performanceGoalsKey).equals(true)) return aestheticIndex;
+				else return (aestheticIndex + performanceIndex) / 2;
+			}
+		} else return -1;
 
 	}
 
