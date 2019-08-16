@@ -1,16 +1,15 @@
 package main;
 
-import static constants.Constants.aestheticGoalsKey;
 import static constants.Constants.buildMassKey;
 import static constants.Constants.burnFatKey;
 import static constants.Constants.gainEnduranceKey;
 import static constants.Constants.gainStrengthKey;
 import static constants.Constants.naKey;
-import static constants.Constants.performanceGoalsKey;
 
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -18,6 +17,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import swing2swt.layout.BorderLayout;
 
@@ -26,6 +27,7 @@ public class Main {
 	HashMap<String, HashMap<String, Boolean>> selectedValues = new HashMap<String, HashMap<String, Boolean>>();
 
 	protected Shell shlVirtualTrainer;
+	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 
 	/**
 	 * Launch the application.
@@ -61,7 +63,7 @@ public class Main {
 	 */
 	protected void createContents() {
 		shlVirtualTrainer = new Shell();
-		shlVirtualTrainer.setSize(814, 621);
+		shlVirtualTrainer.setSize(1023, 739);
 		shlVirtualTrainer.setText("Virtual Trainer");
 		shlVirtualTrainer.setLayout(new BorderLayout(0, 0));
 
@@ -86,49 +88,58 @@ public class Main {
 		newWorkoutComposite.setLayout(null);
 
 		Label newWorkoutIntroText = new Label(newWorkoutComposite, SWT.NONE);
+		newWorkoutIntroText.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		newWorkoutIntroText.setAlignment(SWT.CENTER);
-		newWorkoutIntroText.setBounds(31, 10, 720, 15);
+		newWorkoutIntroText.setBounds(88, 10, 820, 25);
 		newWorkoutIntroText.setText("Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.");
 
 		Composite aestheticGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
-		aestheticGoalsComposite.setBounds(31, 70, 375, 16);
+		aestheticGoalsComposite.setBounds(31, 70, 769, 49);
 
-		Label aestheticGoalsLabel = new Label(aestheticGoalsComposite, SWT.NONE);
-		aestheticGoalsLabel.setBounds(0, 0, 93, 15);
-		aestheticGoalsLabel.setText(aestheticGoalsKey);
+		CLabel aestheticGoalsLabel = new CLabel(aestheticGoalsComposite, SWT.NONE);
+		aestheticGoalsLabel.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		aestheticGoalsLabel.setBounds(0, 0, 166, 39);
+		aestheticGoalsLabel.setText("Aesthetic goals:");
 
 		Button btnBuildMuscle = new Button(aestheticGoalsComposite, SWT.RADIO);
-		btnBuildMuscle.setBounds(108, -1, 93, 16);
+		btnBuildMuscle.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		btnBuildMuscle.setBounds(195, -1, 136, 40);
 		btnBuildMuscle.setText(buildMassKey);
 
 		Button btnBurnFat = new Button(aestheticGoalsComposite, SWT.RADIO);
-		btnBurnFat.setBounds(207, -1, 69, 16);
+		btnBurnFat.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		btnBurnFat.setBounds(401, -1, 116, 40);
 		btnBurnFat.setText(burnFatKey);
 
 		Button btnNa = new Button(aestheticGoalsComposite, SWT.RADIO);
-		btnNa.setLocation(282, -1);
-		btnNa.setSize(83, 16);
+		btnNa.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		btnNa.setLocation(594, -1);
+		btnNa.setSize(122, 40);
 		btnNa.setText(naKey);
 
 		Composite performanceGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
-		performanceGoalsComposite.setBounds(31, 92, 391, 16);
-
-		Label lblPerformanceGoals = new Label(performanceGoalsComposite, SWT.NONE);
-		lblPerformanceGoals.setBounds(0, 0, 102, 15);
-		lblPerformanceGoals.setText(performanceGoalsKey);
+		performanceGoalsComposite.setBounds(31, 125, 769, 49);
 
 		Button btnGainStrength = new Button(performanceGoalsComposite, SWT.RADIO);
-		btnGainStrength.setBounds(108, -1, 92, 16);
+		btnGainStrength.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		btnGainStrength.setBounds(195, -1, 135, 40);
 		btnGainStrength.setText(gainStrengthKey);
 
 		Button btnGainEndurance = new Button(performanceGoalsComposite, SWT.RADIO);
-		btnGainEndurance.setBounds(206, -1, 109, 16);
+		btnGainEndurance.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		btnGainEndurance.setBounds(401, -1, 157, 40);
 		btnGainEndurance.setText(gainEnduranceKey);
 
 		Button btnNa_1 = new Button(performanceGoalsComposite, SWT.RADIO);
-		btnNa_1.setLocation(321, -1);
-		btnNa_1.setSize(59, 16);
+		btnNa_1.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		btnNa_1.setLocation(596, -1);
+		btnNa_1.setSize(98, 40);
 		btnNa_1.setText("N/A");
+
+		CLabel lblPerformanceGoals = new CLabel(performanceGoalsComposite, SWT.NONE);
+		lblPerformanceGoals.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		lblPerformanceGoals.setBounds(0, 0, 178, 39);
+		lblPerformanceGoals.setText("Performance goals:");
 
 	}
 }
