@@ -1,10 +1,12 @@
 package main;
 
+import static constants.Constants.aestheticGoalsKey;
 import static constants.Constants.buildMassKey;
 import static constants.Constants.burnFatKey;
 import static constants.Constants.gainEnduranceKey;
 import static constants.Constants.gainStrengthKey;
 import static constants.Constants.naKey;
+import static constants.Constants.performanceGoalsKey;
 
 import java.util.HashMap;
 
@@ -17,6 +19,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wb.swt.SWTResourceManager;
 
@@ -28,6 +31,8 @@ public class Main {
 
 	protected Shell shlVirtualTrainer;
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
+	private Text currentWeightText;
+	private Text goalWeightText;
 
 	/**
 	 * Launch the application.
@@ -99,7 +104,7 @@ public class Main {
 		CLabel aestheticGoalsLabel = new CLabel(aestheticGoalsComposite, SWT.NONE);
 		aestheticGoalsLabel.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
 		aestheticGoalsLabel.setBounds(0, 0, 166, 39);
-		aestheticGoalsLabel.setText("Aesthetic goals:");
+		aestheticGoalsLabel.setText(aestheticGoalsKey);
 
 		Button btnBuildMuscle = new Button(aestheticGoalsComposite, SWT.RADIO);
 		btnBuildMuscle.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
@@ -134,12 +139,46 @@ public class Main {
 		btnNa_1.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 		btnNa_1.setLocation(596, -1);
 		btnNa_1.setSize(98, 40);
-		btnNa_1.setText("N/A");
+		btnNa_1.setText(naKey);
 
 		CLabel lblPerformanceGoals = new CLabel(performanceGoalsComposite, SWT.NONE);
 		lblPerformanceGoals.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
 		lblPerformanceGoals.setBounds(0, 0, 178, 39);
-		lblPerformanceGoals.setText("Performance goals:");
+		lblPerformanceGoals.setText(performanceGoalsKey);
+
+		Composite currentWeightcomposite = new Composite(newWorkoutComposite, SWT.NONE);
+		currentWeightcomposite.setBounds(31, 190, 769, 49);
+		//formToolkit.adapt(currentWeightcomposite);
+		//formToolkit.paintBordersFor(currentWeightcomposite);
+
+		CLabel lblCurrentWeight = new CLabel(currentWeightcomposite, SWT.NONE);
+		lblCurrentWeight.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		lblCurrentWeight.setBounds(0, 0, 179, 39);
+		//formToolkit.adapt(lblCurrentWeight);
+		//formToolkit.paintBordersFor(lblCurrentWeight);
+		lblCurrentWeight.setText("Current weight:");
+
+		currentWeightText = new Text(currentWeightcomposite, SWT.BORDER);
+		currentWeightText.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		currentWeightText.setBounds(185, 0, 160, 39);
+		//formToolkit.adapt(currentWeightText, true, true);
+
+		Composite goalWeightComposite = new Composite(newWorkoutComposite, SWT.NONE);
+		goalWeightComposite.setBounds(31, 250, 769, 64);
+		//formToolkit.adapt(goalWeightComposite);
+		//formToolkit.paintBordersFor(goalWeightComposite);
+
+		CLabel lblGoalWeight = new CLabel(goalWeightComposite, SWT.NONE);
+		lblGoalWeight.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		lblGoalWeight.setBounds(0, 0, 164, 54);
+		//formToolkit.adapt(lblGoalWeight);
+		//formToolkit.paintBordersFor(lblGoalWeight);
+		lblGoalWeight.setText("Goal weight:");
+
+		goalWeightText = new Text(goalWeightComposite, SWT.BORDER);
+		goalWeightText.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		goalWeightText.setBounds(185, 0, 160, 39);
+		//formToolkit.adapt(goalWeightText, true, true);
 
 	}
 }
