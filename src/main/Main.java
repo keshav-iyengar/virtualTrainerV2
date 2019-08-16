@@ -78,10 +78,10 @@ public class Main {
 		TabItem homeTab = new TabItem(tabFolder, SWT.NONE);
 		homeTab.setText("Home");
 
+		// NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder);
+
 		TabItem newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		newWorkoutTab.setText("New workout");
-
-		// NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder);
 
 		Composite newWorkoutComposite = new Composite(tabFolder, SWT.NONE);
 		newWorkoutTab.setControl(newWorkoutComposite);

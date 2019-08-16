@@ -44,7 +44,7 @@ public class NewWorkoutTab implements Tab {
 
 		// Aesthetic goals button group
 		aestheticGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
-		aestheticGoalsComposite.setBounds(31, 70, 313, 16);
+		aestheticGoalsComposite.setBounds(31, 70, 769, 49);
 		setLabel(aestheticGoalsComposite, aestheticGoalsKey, 0, 0, 166, 39, 0, SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
 		setButton(aestheticGoalsComposite, aestheticGoalsKey, buildMassKey, SWT.RADIO, 195, -1, 136, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 		setButton(aestheticGoalsComposite, aestheticGoalsKey, burnFatKey, SWT.RADIO, 401, -1, 116, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
@@ -52,7 +52,7 @@ public class NewWorkoutTab implements Tab {
 
 		// Performance goals button group
 		performanceGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
-		performanceGoalsComposite.setBounds(31, 92, 391, 16);
+		performanceGoalsComposite.setBounds(31, 125, 769, 49);
 		setLabel(performanceGoalsComposite, performanceGoalsKey, 0, 0, 178, 39, 0, SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
 		setButton(performanceGoalsComposite, performanceGoalsKey, gainStrengthKey, SWT.RADIO, 195, -1, 135, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 		setButton(performanceGoalsComposite, performanceGoalsKey, gainEnduranceKey, SWT.RADIO, 401, -1, 157, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
