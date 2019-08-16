@@ -19,7 +19,7 @@ public class WorkoutIndexEngine {
 
 	HashMap<String, HashMap<String, Boolean>> selectedValues;
 	HashMap<String, Double> weightData;
-	double age;
+	int age;
 
 	// lose weight/fat
 	// gain weight/mass
@@ -30,19 +30,23 @@ public class WorkoutIndexEngine {
 	// 1 2 3 4 5 6 7 8 9 10
 	// LW/GE LW/GS;GW/GE GW/GS
 
-	public WorkoutIndexEngine(HashMap<String, HashMap<String, Boolean>> values, HashMap<String, Double> wtData, double a) {
+	public WorkoutIndexEngine(HashMap<String, HashMap<String, Boolean>> values, HashMap<String, Double> wtData, int a) {
 
 		this.selectedValues = values;
 		this.weightData = wtData;
 		this.age = a;
 
+		int category = determineCategory(getFitnessGoalsIndex(), getWeightGoalsIndex(), getAgeIndex());
+		CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(category);
+
 	}
 
-	//	public int calculateCategory(int fitIndex, int weightIndex, int ageIndex) {
-	//		
-	//		HashMap<>
-	//
-	//	}
+	public int determineCategory(int fitIndex, int weightIndex, int ageIndex) {
+
+		if(fitIndex == -1 || weightIndex == -1 || ageIndex == -1) return -1;
+		else return (fitIndex * 100) + (weightIndex * 10) + ageIndex;
+
+	}
 
 	/*
 	 * Calculate the user's fitness index by averaging aesthetic and performance
@@ -135,16 +139,14 @@ public class WorkoutIndexEngine {
 
 			if(difference < 0) { //lose weight
 
-				if(netDiff <= 5) return 4;
-				else if(netDiff <= 10) return 3;
-				else if(netDiff <= 20) return 2;
+				if(netDiff <= 10) return 2;
+				else if(netDiff <= 20) return 1;
 				else return 0;
 
 			} else if(difference > 0) { //gain weight
 
-				if(netDiff <= 5) return 6;
-				else if(netDiff <= 10) return 7;
-				else if(netDiff <= 20) return 8;
+				if(netDiff <= 10) return 8;
+				else if(netDiff <= 20) return 9;
 				else return 10;
 
 			} else return 5; //maintain weight
