@@ -13,7 +13,6 @@ import static constants.Constants.performanceGoalsKey;
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
@@ -24,7 +23,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class NewWorkoutTab implements Tab {
+public class NewWorkoutTab extends Tab {
 
 	TabItem newWorkoutTab;
 	Composite newWorkoutComposite;
@@ -80,14 +79,46 @@ public class NewWorkoutTab implements Tab {
 
 	}
 
-	@Override
-	public void setLabel(Composite composite, String labelText, int boundX, int boundY, int boundW, int boundH, int alignment, Font font) {
+	public boolean isValidInput() {
 
-		CLabel label = new CLabel(composite, SWT.NONE);
-		if(alignment != 0) label.setAlignment(alignment);
-		label.setBounds(boundX, boundY, boundW, boundH);
-		label.setText(labelText);
-		label.setFont(font);
+		boolean inputIsValid = false;
+		int validResponseCounter = 0; //less than 2 selections == invalid form
+		int naSelectionsCounter = 0; //can only have 1 N/A selection
+
+		boolean selection = false;
+		for(String key : this.selectedValues.keySet()) {
+
+			for(String k : selectedValues.get(key).keySet()) {
+
+				selection = selectedValues.get(key).get(k);
+
+				switch (k) {
+
+					case buildMassKey:
+						if(selection == true) validResponseCounter++;
+					case burnFatKey:
+						if(selection == true) validResponseCounter++;
+					case gainStrengthKey:
+						if(selection == true) validResponseCounter++;
+					case gainEnduranceKey:
+						if(selection == true) validResponseCounter++;
+					case naKey:
+						if(selection == true) {
+							validResponseCounter++;
+							naSelectionsCounter++;
+						}
+					default:
+						return false;
+
+				}
+
+			}
+
+		}
+
+		if(validResponseCounter == 2 && naSelectionsCounter <= 1) inputIsValid = true;
+
+		return inputIsValid;
 
 	}
 
@@ -130,14 +161,6 @@ public class NewWorkoutTab implements Tab {
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 
 		});
-
-	}
-
-	@Override
-	public void setTextInputField(Composite composite, Text text, int border, int boundX, int boundY, int boundW, int boundH, Font font) {
-		text = new Text(composite, border);
-		text.setFont(font);
-		text.setBounds(boundX, boundY, boundW, boundH);
 
 	}
 

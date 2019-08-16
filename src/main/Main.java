@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -161,7 +163,21 @@ public class Main {
 		currentWeightText = new Text(currentWeightcomposite, SWT.BORDER);
 		currentWeightText.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 		currentWeightText.setBounds(185, 0, 160, 39);
-		//formToolkit.adapt(currentWeightText, true, true);
+		currentWeightText.addVerifyListener(new VerifyListener() {
+			@Override
+			public void verifyText(VerifyEvent e) {
+				boolean test = true;
+				final String text = e.text;
+				try {
+					int i = Integer.parseInt(text);
+					System.out.println(test + text);
+				} catch(NumberFormatException ex) {
+					test = false;
+					System.out.println(test + text);
+				}
+
+			}
+		});
 
 		Composite goalWeightComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		goalWeightComposite.setBounds(31, 250, 769, 64);
