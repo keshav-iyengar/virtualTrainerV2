@@ -47,10 +47,9 @@ public class NewWorkoutTab extends Tab {
 
 	HashMap<String, HashMap<String, Boolean>> selectedValues = new HashMap<String, HashMap<String, Boolean>>();
 
-	String errorMsg = "invalid input";
 	StringBuilder errMsg = new StringBuilder("Error:");
 
-	public NewWorkoutTab(TabFolder tabFolder) {
+	public NewWorkoutTab(TabFolder tabFolder, TabItem yourWorkoutTab) {
 
 		newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		newWorkoutTab.setText("New workout");
@@ -93,7 +92,7 @@ public class NewWorkoutTab extends Tab {
 		//Invalid input label
 		lblInvalidInput = new CLabel(newWorkoutComposite, SWT.NONE);
 		lblInvalidInput.setAlignment(SWT.CENTER);
-		lblInvalidInput.setBounds(385, 396, 300, 21);
+		lblInvalidInput.setBounds(31, 396, 936, 21);
 		lblInvalidInput.setText(errMsg.toString());
 		lblInvalidInput.setVisible(false);
 
@@ -108,13 +107,18 @@ public class NewWorkoutTab extends Tab {
 					case SWT.Selection:
 						if(isValidSelections() && isValidWeightData()) {
 							WorkoutIndexEngine workoutIndexEngine = new WorkoutIndexEngine(selectedValues, Integer.parseInt(currentWeightText.getText()), Integer.parseInt(goalWeightText.getText()));
-							System.out.println("valid input");
 							lblInvalidInput.setVisible(false);
+							Composite yourWorkoutComposite = new Composite(tabFolder, SWT.NONE);
+							yourWorkoutTab.setControl(yourWorkoutComposite);
+							CLabel lblTestLabel = new CLabel(yourWorkoutComposite, SWT.NONE);
+							lblTestLabel.setBounds(118, 85, 208, 21);
+							lblTestLabel.setText(String.valueOf(workoutIndexEngine.getWorkoutIndex()));
+							tabFolder.setSelection(1);
 						} else {
 							lblInvalidInput.setText(errMsg.toString());
 							lblInvalidInput.setVisible(true);
-							System.out.println(errMsg);
-							errMsg.setLength(0);
+							errMsg.setLength(0); //reset error message
+							errMsg.append("Error: ");
 						}
 				}
 			}
@@ -188,16 +192,18 @@ public class NewWorkoutTab extends Tab {
 					goalIsValid = false;
 					this.errMsg.append(" Build mass/weight loss is contradictory.");
 				} else goalIsValid = true;
+
 			} else if(selectedValues.get(aestheticGoalsKey).get(burnFatKey) != null) {
 				if(selectedValues.get(aestheticGoalsKey).get(burnFatKey) && (difference > 0)) {
 					goalIsValid = false;
 					this.errMsg.append(" Burn fat/weight gain is contradictory.");
 				} else goalIsValid = true;
+
 			} else goalIsValid = true;
 
 		} catch(NumberFormatException ex) {
 			weightIsValid = false;
-			this.errMsg.append(" Weight must be digits only, rounded to nearest pound.");
+			this.errMsg.append(" Weight must be digits only, rounded to the nearest pound.");
 		}
 
 		return goalIsValid && weightIsValid;
@@ -223,14 +229,12 @@ public class NewWorkoutTab extends Tab {
 							put(buttonKey, true);
 						}
 					});
-					System.out.println(selectedValues.get(categoryKey).get(buttonKey));
 				} else {
 					selectedValues.put(categoryKey, new HashMap() {
 						{
 							put(buttonKey, false);
 						}
 					});
-					System.out.println(selectedValues.get(categoryKey).get(buttonKey));
 				}
 
 			}
