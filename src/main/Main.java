@@ -17,7 +17,9 @@ import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -85,7 +87,7 @@ public class Main {
 		TabItem homeTab = new TabItem(tabFolder, SWT.NONE);
 		homeTab.setText("Home");
 
-		// NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder);
+		//NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder);
 
 		TabItem newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		newWorkoutTab.setText("New workout");
@@ -142,7 +144,7 @@ public class Main {
 		btnNa_1.setLocation(596, -1);
 		btnNa_1.setSize(98, 40);
 		btnNa_1.setText(naKey);
-
+		//
 		CLabel lblPerformanceGoals = new CLabel(performanceGoalsComposite, SWT.NONE);
 		lblPerformanceGoals.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
 		lblPerformanceGoals.setBounds(0, 0, 178, 39);
@@ -172,28 +174,59 @@ public class Main {
 					int i = Integer.parseInt(text);
 					System.out.println(test + text);
 				} catch(NumberFormatException ex) {
-					test = false;
+					if(!text.equals("")) test = false;
 					System.out.println(test + text);
 				}
 
 			}
 		});
-
+		//
+		//		//currentWeightText.getText();
+		//
 		Composite goalWeightComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		goalWeightComposite.setBounds(31, 250, 769, 64);
-		//formToolkit.adapt(goalWeightComposite);
-		//formToolkit.paintBordersFor(goalWeightComposite);
-
+		//		//formToolkit.adapt(goalWeightComposite);
+		//		//formToolkit.paintBordersFor(goalWeightComposite);
+		//
 		CLabel lblGoalWeight = new CLabel(goalWeightComposite, SWT.NONE);
 		lblGoalWeight.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
 		lblGoalWeight.setBounds(0, 0, 164, 54);
-		//formToolkit.adapt(lblGoalWeight);
-		//formToolkit.paintBordersFor(lblGoalWeight);
+		//		//formToolkit.adapt(lblGoalWeight);
+		//		//formToolkit.paintBordersFor(lblGoalWeight);
 		lblGoalWeight.setText("Goal weight:");
-
+		//
 		goalWeightText = new Text(goalWeightComposite, SWT.BORDER);
 		goalWeightText.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 		goalWeightText.setBounds(185, 0, 160, 39);
+
+		Button btnSubmit = new Button(newWorkoutComposite, SWT.NONE);
+		btnSubmit.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		btnSubmit.setBounds(439, 423, 90, 31);
+		formToolkit.adapt(btnSubmit, true, true);
+		btnSubmit.setText("Submit");
+
+		CLabel lblInvalidInput = new CLabel(newWorkoutComposite, SWT.NONE);
+		lblInvalidInput.setAlignment(SWT.CENTER);
+		lblInvalidInput.setBounds(385, 396, 189, 21);
+		formToolkit.adapt(lblInvalidInput);
+		formToolkit.paintBordersFor(lblInvalidInput);
+		lblInvalidInput.setText("Invalid input!");
+		lblInvalidInput.setVisible(false);
+
+		btnSubmit.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				switch (e.type) {
+					case SWT.Selection:
+						try {
+							int i = Integer.parseInt(currentWeightText.getText());
+							lblInvalidInput.setVisible(false);
+						} catch(NumberFormatException ex) {
+							lblInvalidInput.setVisible(true);
+						}
+				}
+			}
+		});
+
 		//formToolkit.adapt(goalWeightText, true, true);
 
 	}

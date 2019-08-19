@@ -9,33 +9,46 @@ import static constants.Constants.gainStrengthKey;
 import static constants.Constants.goalWeightKey;
 import static constants.Constants.naKey;
 import static constants.Constants.performanceGoalsKey;
+import static constants.Constants.submitKey;
 
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import engines.WorkoutIndexEngine;
+
 public class NewWorkoutTab extends Tab {
 
 	TabItem newWorkoutTab;
+
 	Composite newWorkoutComposite;
 	Composite aestheticGoalsComposite;
 	Composite performanceGoalsComposite;
+
 	Composite currentWeightComposite;
+	Text currentWeightText;
 	Composite goalWeightComposite;
+	Text goalWeightText;
+
+	CLabel lblInvalidInput;
+	Button btnSubmit;
 
 	HashMap<String, HashMap<String, Boolean>> selectedValues = new HashMap<String, HashMap<String, Boolean>>();
 
-	Text currentWeightText;
-	Text goalWeightText;
+	String errorMsg = "invalid input";
+	StringBuilder errMsg = new StringBuilder("Error:");
 
 	public NewWorkoutTab(TabFolder tabFolder) {
 
@@ -69,56 +82,125 @@ public class NewWorkoutTab extends Tab {
 		currentWeightComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		currentWeightComposite.setBounds(31, 190, 769, 49);
 		setLabel(currentWeightComposite, currentWeightKey, 0, 0, 179, 39, 0, SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
-		setTextInputField(currentWeightComposite, currentWeightText, SWT.BORDER, 185, 0, 160, 39, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		currentWeightText = setTextInputField(currentWeightComposite, currentWeightText, SWT.BORDER, 185, 0, 160, 39, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 
 		//Goal weight form
 		goalWeightComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		goalWeightComposite.setBounds(31, 250, 769, 64);
 		setLabel(goalWeightComposite, goalWeightKey, 0, 0, 164, 54, 0, SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
-		setTextInputField(goalWeightComposite, goalWeightText, SWT.BORDER, 185, 0, 160, 39, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		goalWeightText = setTextInputField(goalWeightComposite, goalWeightText, SWT.BORDER, 185, 0, 160, 39, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+
+		//Invalid input label
+		lblInvalidInput = new CLabel(newWorkoutComposite, SWT.NONE);
+		lblInvalidInput.setAlignment(SWT.CENTER);
+		lblInvalidInput.setBounds(385, 396, 300, 21);
+		lblInvalidInput.setText(errMsg.toString());
+		lblInvalidInput.setVisible(false);
+
+		//Submit button
+		btnSubmit = new Button(newWorkoutComposite, SWT.NONE);
+		btnSubmit.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		btnSubmit.setBounds(439, 423, 90, 31);
+		btnSubmit.setText(submitKey);
+		btnSubmit.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				switch (e.type) {
+					case SWT.Selection:
+						if(isValidSelections() && isValidWeightData()) {
+							WorkoutIndexEngine workoutIndexEngine = new WorkoutIndexEngine(selectedValues, Integer.parseInt(currentWeightText.getText()), Integer.parseInt(goalWeightText.getText()));
+							System.out.println("valid input");
+							lblInvalidInput.setVisible(false);
+						} else {
+							lblInvalidInput.setText(errMsg.toString());
+							lblInvalidInput.setVisible(true);
+							System.out.println(errMsg);
+							errMsg.setLength(0);
+						}
+				}
+			}
+		});
 
 	}
 
-	public boolean isValidInput() {
+	public boolean isValidSelections() {
 
 		boolean inputIsValid = false;
 		int validResponseCounter = 0; //less than 2 selections == invalid form
 		int naSelectionsCounter = 0; //can only have 1 N/A selection
 
-		boolean selection = false;
+		boolean selected = false;
 		for(String key : this.selectedValues.keySet()) {
-
 			for(String k : selectedValues.get(key).keySet()) {
-
-				selection = selectedValues.get(key).get(k);
-
+				selected = selectedValues.get(key).get(k);
 				switch (k) {
-
 					case buildMassKey:
-						if(selection == true) validResponseCounter++;
+						if(selected) {
+							validResponseCounter++;
+							break;
+						}
 					case burnFatKey:
-						if(selection == true) validResponseCounter++;
+						if(selected) {
+							validResponseCounter++;
+							break;
+						}
 					case gainStrengthKey:
-						if(selection == true) validResponseCounter++;
+						if(selected) {
+							validResponseCounter++;
+							break;
+						}
 					case gainEnduranceKey:
-						if(selection == true) validResponseCounter++;
+						if(selected) {
+							validResponseCounter++;
+							break;
+						}
 					case naKey:
-						if(selection == true) {
+						if(selected) {
 							validResponseCounter++;
 							naSelectionsCounter++;
+							break;
 						}
 					default:
 						return false;
-
 				}
-
 			}
-
 		}
 
 		if(validResponseCounter == 2 && naSelectionsCounter <= 1) inputIsValid = true;
+		else this.errMsg.append(" Only 1 NA selection is allowed. All responses required.");
 
 		return inputIsValid;
+
+	}
+
+	public boolean isValidWeightData() {
+
+		boolean weightIsValid = false;
+		boolean goalIsValid = false;
+		try {
+			int currentWeight = Integer.parseInt(currentWeightText.getText());
+			int goalWeight = Integer.parseInt(goalWeightText.getText());
+			weightIsValid = true;
+			int difference = goalWeight - currentWeight;
+
+			//lose weight and build mass is invalid; vice versa as well.
+			if(selectedValues.get(aestheticGoalsKey).get(buildMassKey) != null) {
+				if(selectedValues.get(aestheticGoalsKey).get(buildMassKey) && (difference < 0)) {
+					goalIsValid = false;
+					this.errMsg.append(" Build mass/weight loss is contradictory.");
+				} else goalIsValid = true;
+			} else if(selectedValues.get(aestheticGoalsKey).get(burnFatKey) != null) {
+				if(selectedValues.get(aestheticGoalsKey).get(burnFatKey) && (difference > 0)) {
+					goalIsValid = false;
+					this.errMsg.append(" Burn fat/weight gain is contradictory.");
+				} else goalIsValid = true;
+			} else goalIsValid = true;
+
+		} catch(NumberFormatException ex) {
+			weightIsValid = false;
+			this.errMsg.append(" Weight must be digits only, rounded to nearest pound.");
+		}
+
+		return goalIsValid && weightIsValid;
 
 	}
 
@@ -136,23 +218,19 @@ public class NewWorkoutTab extends Tab {
 			public void widgetSelected(SelectionEvent event) {
 
 				if(button.getSelection()) {
-
 					selectedValues.put(categoryKey, new HashMap() {
 						{
 							put(buttonKey, true);
 						}
 					});
 					System.out.println(selectedValues.get(categoryKey).get(buttonKey));
-
 				} else {
-
 					selectedValues.put(categoryKey, new HashMap() {
 						{
 							put(buttonKey, false);
 						}
 					});
 					System.out.println(selectedValues.get(categoryKey).get(buttonKey));
-
 				}
 
 			}

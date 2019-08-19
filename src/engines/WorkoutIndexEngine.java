@@ -3,10 +3,8 @@ package engines;
 import static constants.Constants.aestheticGoalsKey;
 import static constants.Constants.buildMassKey;
 import static constants.Constants.burnFatKey;
-import static constants.Constants.currentWeightKey;
 import static constants.Constants.gainEnduranceKey;
 import static constants.Constants.gainStrengthKey;
-import static constants.Constants.goalWeightKey;
 import static constants.Constants.naKey;
 import static constants.Constants.performanceGoalsKey;
 
@@ -18,8 +16,8 @@ import java.util.HashMap;
 public class WorkoutIndexEngine {
 
 	HashMap<String, HashMap<String, Boolean>> selectedValues;
-	HashMap<String, Double> weightData;
-	int age;
+	int currentWeight;
+	int goalWeight;
 
 	// lose weight/fat
 	// gain weight/mass
@@ -30,21 +28,21 @@ public class WorkoutIndexEngine {
 	// 1 2 3 4 5 6 7 8 9 10
 	// LW/GE LW/GS;GW/GE GW/GS
 
-	public WorkoutIndexEngine(HashMap<String, HashMap<String, Boolean>> values, HashMap<String, Double> wtData, int a) {
+	public WorkoutIndexEngine(HashMap<String, HashMap<String, Boolean>> values, int cWeight, int gWeight) {
 
 		this.selectedValues = values;
-		this.weightData = wtData;
-		this.age = a;
+		this.currentWeight = cWeight;
+		this.goalWeight = gWeight;
 
-		int category = determineCategory(getFitnessGoalsIndex(), getWeightGoalsIndex(), getAgeIndex());
+		int category = determineCategory(getFitnessGoalsIndex(), getWeightGoalsIndex());
+		System.out.println("Category is: " + category);
 		CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(category);
 
 	}
 
-	public int determineCategory(int fitIndex, int weightIndex, int ageIndex) {
+	public int determineCategory(int fitIndex, int weightIndex) {
 
-		if(fitIndex == -1 || weightIndex == -1 || ageIndex == -1) return -1;
-		else return (fitIndex * 100) + (weightIndex * 10) + ageIndex;
+		return (fitIndex * 10) + weightIndex;
 
 	}
 
@@ -54,16 +52,9 @@ public class WorkoutIndexEngine {
 	 */
 	public int getFitnessGoalsIndex() {
 
-		int aestheticIndex = 0;
-		int performanceIndex = 0;
+		int aestheticIndex = 0, performanceIndex = 0;
+		boolean aestheticNa = false, performanceNa = false;
 		boolean selection; // user's responses
-		HashMap<String, Boolean> naSelections = new HashMap<String, Boolean>() {
-			{
-				put(aestheticGoalsKey, false);
-				put(performanceGoalsKey, false);
-			}
-		};
-		int validResponseCounter = 0; //no selections == invalid form
 
 		for(String key : this.selectedValues.keySet()) {
 
@@ -74,92 +65,55 @@ public class WorkoutIndexEngine {
 				switch (k) {
 
 					case buildMassKey:
-						if(selection == true) {
-							aestheticIndex = 10;
-							validResponseCounter++;
-						}
+						if(selection == true) aestheticIndex = 10;
+						break;
 					case burnFatKey:
-						if(selection == true) {
-							aestheticIndex = 0;
-							validResponseCounter++;
-						}
+						if(selection == true) aestheticIndex = 0;
+						break;
 					case gainStrengthKey:
-						if(selection == true) {
-							performanceIndex = 10;
-							validResponseCounter++;
-						}
+						if(selection == true) performanceIndex = 10;
+						break;
 					case gainEnduranceKey:
-						if(selection == true) {
-							performanceIndex = 0;
-							validResponseCounter++;
-						}
+						if(selection == true) performanceIndex = 0;
+						break;
 					case naKey:
 						if(selection == true && key.equals(aestheticGoalsKey)) {
-							naSelections.put(aestheticGoalsKey, true);
-							validResponseCounter++;
+							aestheticNa = true;
 						}
 						if(selection == true && key.equals(performanceGoalsKey)) {
-							naSelections.put(performanceGoalsKey, true);
-							validResponseCounter++;
+							performanceNa = true;
 						}
-					default:
-						return -1;
-
+						break;
 				}
 
 			}
 
 		}
 
-		if(validResponseCounter == 2) {
-			if(naSelections.get(aestheticGoalsKey).equals(true)) {
-				if(naSelections.get(performanceGoalsKey).equals(true)) return -1;//error - 2 na's chosen or insufficient responses
-				else return performanceIndex;
-			} else {
-				if(naSelections.get(performanceGoalsKey).equals(true)) return aestheticIndex;
-				else return (aestheticIndex + performanceIndex) / 2;
-			}
-		} else return -1;
+		if(aestheticNa == true) return performanceIndex;
+		else if(performanceNa == true) return aestheticIndex;
+		else return (aestheticIndex + performanceIndex) / 2;
 
 	}
 
 	public int getWeightGoalsIndex() {
 
-		double currentWeight = this.weightData.get(currentWeightKey);
-		double goalWeight = this.weightData.get(goalWeightKey);
+		int difference = this.goalWeight - this.currentWeight;
+		int netDiff = Math.abs(difference);
 
-		double difference = goalWeight - currentWeight;
-		double netDiff = Math.abs(difference);
+		if(difference < 0) { //lose weight
 
-		//build mass and lose weight (and vice versa) is invalid
-		boolean isValidInput = (selectedValues.get(aestheticGoalsKey).get(buildMassKey) && (difference < 0)) || (selectedValues.get(aestheticGoalsKey).get(burnFatKey) && (difference > 0)) ? false
-				: true;
+			if(netDiff <= 10) return 2;
+			else if(netDiff <= 20) return 1;
+			else return 0;
 
-		if(isValidInput) {
+		} else if(difference > 0) { //gain weight
 
-			if(difference < 0) { //lose weight
+			if(netDiff <= 10) return 8;
+			else if(netDiff <= 20) return 9;
+			else return 10;
 
-				if(netDiff <= 10) return 2;
-				else if(netDiff <= 20) return 1;
-				else return 0;
-
-			} else if(difference > 0) { //gain weight
-
-				if(netDiff <= 10) return 8;
-				else if(netDiff <= 20) return 9;
-				else return 10;
-
-			} else return 5; //maintain weight
-
-		} else return -1;
-
-	}
-
-	public int getAgeIndex() {
-
-		if(this.age <= 30) return 3;
-		else if(this.age <= 50) return 2;
-		else return 1;
+		} else return 5; //maintain weight
 
 	}
 

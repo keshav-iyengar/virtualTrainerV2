@@ -24,4 +24,7 @@ public final class Constants {
 
 	public static final String naKey = "N/A";
 
+	public static final String invalidInputKey = "Invalid input!";
+	public static final String submitKey = "Submit";
+
 }

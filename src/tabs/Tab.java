@@ -33,10 +33,11 @@ public class Tab {
 		button.setFont(font);
 	}
 
-	public void setTextInputField(Composite composite, Text text, int border, int boundX, int boundY, int boundW, int boundH, Font font) {
+	public Text setTextInputField(Composite composite, Text text, int border, int boundX, int boundY, int boundW, int boundH, Font font) {
 		text = new Text(composite, border);
 		text.setFont(font);
 		text.setBounds(boundX, boundY, boundW, boundH);
+		return text;
 	}
 
 }
