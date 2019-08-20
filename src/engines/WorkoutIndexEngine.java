@@ -18,16 +18,10 @@ public class WorkoutIndexEngine {
 	HashMap<String, HashMap<String, Boolean>> selectedValues;
 	int currentWeight;
 	int goalWeight;
-	int workoutIndex;
+	int[] workoutIndex;
 
-	// lose weight/fat
-	// gain weight/mass
-
-	// gain strength
-	// gain endurance
-
-	// 1 2 3 4 5 6 7 8 9 10
-	// LW/GE LW/GS;GW/GE GW/GS
+	//      0    				 5     				  10
+	//0 1 2 5 8 9 10       0 1 2 5 8 9 10		0 1 2 5 8 9 10
 
 	public WorkoutIndexEngine(HashMap<String, HashMap<String, Boolean>> values, int cWeight, int gWeight) {
 
@@ -35,20 +29,20 @@ public class WorkoutIndexEngine {
 		this.currentWeight = cWeight;
 		this.goalWeight = gWeight;
 
-		int category = determineCategory(getFitnessGoalsIndex(), getWeightGoalsIndex());
+		int[] category = determineCategory(getFitnessGoalsIndex(), getWeightGoalsIndex());
 		this.workoutIndex = category;
-		System.out.println("Category is: " + category);
 		CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(category);
 
 	}
 
-	public int getWorkoutIndex() {
+	public int[] getWorkoutIndex() {
 		return this.workoutIndex;
 	}
 
-	public int determineCategory(int fitIndex, int weightIndex) {
+	public int[] determineCategory(int fitIndex, int weightIndex) {
 
-		return (fitIndex * 10) + weightIndex;
+		//return (fitIndex * 10) + weightIndex;
+		return new int[] { fitIndex, weightIndex };
 
 	}
 

@@ -49,7 +49,7 @@ public class NewWorkoutTab extends Tab {
 
 	StringBuilder errMsg = new StringBuilder("Error:");
 
-	public NewWorkoutTab(TabFolder tabFolder, TabItem yourWorkoutTab) {
+	public NewWorkoutTab(TabFolder tabFolder, YourWorkoutTab tabYourWorkout/* TabItem yourWorkoutTab */) {
 
 		newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		newWorkoutTab.setText("New workout");
@@ -108,11 +108,12 @@ public class NewWorkoutTab extends Tab {
 						if(isValidSelections() && isValidWeightData()) {
 							WorkoutIndexEngine workoutIndexEngine = new WorkoutIndexEngine(selectedValues, Integer.parseInt(currentWeightText.getText()), Integer.parseInt(goalWeightText.getText()));
 							lblInvalidInput.setVisible(false);
-							Composite yourWorkoutComposite = new Composite(tabFolder, SWT.NONE);
-							yourWorkoutTab.setControl(yourWorkoutComposite);
-							CLabel lblTestLabel = new CLabel(yourWorkoutComposite, SWT.NONE);
-							lblTestLabel.setBounds(118, 85, 208, 21);
-							lblTestLabel.setText(String.valueOf(workoutIndexEngine.getWorkoutIndex()));
+							tabYourWorkout.setWorkout(workoutIndexEngine.getWorkoutIndex());
+							//							Composite yourWorkoutComposite = new Composite(tabFolder, SWT.NONE);
+							//							yourWorkoutTab.setControl(yourWorkoutComposite);
+							//							CLabel lblTestLabel = new CLabel(yourWorkoutComposite, SWT.NONE);
+							//							lblTestLabel.setBounds(118, 85, 208, 21);
+							//							lblTestLabel.setText(String.valueOf(workoutIndexEngine.getWorkoutIndex()));
 							tabFolder.setSelection(1);
 						} else {
 							lblInvalidInput.setText(errMsg.toString());
