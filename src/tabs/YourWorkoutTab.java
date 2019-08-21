@@ -2,24 +2,20 @@ package tabs;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+
+import engines.CompileWorkoutEngine;
 
 public class YourWorkoutTab extends Tab {
 
 	TabItem yourWorkoutTab;
 	Composite yourWorkoutComposite;
-	int workoutIndex;
-	CLabel lblTestWorkout;
 	TabFolder tabFolder;
 	Browser browser;
 
-	//HashMap<Integer, HashMap<String, Exercise>> workouts = new HashMap<>();
-	//HashMap<Integer, Exercise> workouts = new HashMap<>();
-
-	public YourWorkoutTab(TabFolder tFolder, int wktIndex) {
+	public YourWorkoutTab(TabFolder tFolder) {
 		tabFolder = tFolder;
 		yourWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		yourWorkoutTab.setText("Your workout");
@@ -35,13 +31,10 @@ public class YourWorkoutTab extends Tab {
 		return this.yourWorkoutComposite;
 	}
 
-	public void setWorkoutIndex(int index) {
-		this.workoutIndex = index;
-	}
-
 	public void setWorkout(int[] index) {
-		this.yourWorkoutComposite = new Composite(tabFolder, SWT.None);
+		yourWorkoutComposite = new Composite(tabFolder, SWT.None);
 		yourWorkoutTab.setControl(yourWorkoutComposite);
+		CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(index);
 
 		browser = new Browser(yourWorkoutComposite, SWT.NONE);
 		browser.setBounds(89, 183, 420, 326);

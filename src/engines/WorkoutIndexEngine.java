@@ -21,17 +21,15 @@ public class WorkoutIndexEngine {
 	int[] workoutIndex;
 
 	//      0    				 5     				  10
-	//0 1 2 5 8 9 10       0 1 2 5 8 9 10		0 1 2 5 8 9 10
+	//0 1 2 5 		       0 1 2 5 8 9 10			  5 8 9 10
 
 	public WorkoutIndexEngine(HashMap<String, HashMap<String, Boolean>> values, int cWeight, int gWeight) {
 
 		this.selectedValues = values;
 		this.currentWeight = cWeight;
 		this.goalWeight = gWeight;
-
-		int[] category = determineCategory(getFitnessGoalsIndex(), getWeightGoalsIndex());
-		this.workoutIndex = category;
-		CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(category);
+		this.workoutIndex = determineCategory(getFitnessGoalsIndex(), getWeightGoalsIndex());
+		//CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(this.workoutIndex);
 
 	}
 
@@ -101,9 +99,9 @@ public class WorkoutIndexEngine {
 
 		if(difference < 0) { //lose weight
 
-			if(netDiff <= 10) return 2;
-			else if(netDiff <= 20) return 1;
-			else return 0;
+			if(netDiff <= 10) return 3;
+			else if(netDiff <= 20) return 2;
+			else return 1;
 
 		} else if(difference > 0) { //gain weight
 

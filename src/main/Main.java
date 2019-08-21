@@ -73,7 +73,7 @@ public class Main {
 		TabItem homeTab = new TabItem(tabFolder, SWT.NONE);
 		homeTab.setText("Home");
 
-		YourWorkoutTab yourWorkoutTab = new YourWorkoutTab(tabFolder, 0);
+		YourWorkoutTab yourWorkoutTab = new YourWorkoutTab(tabFolder);
 		NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder, yourWorkoutTab);
 
 		//		TabItem yourWorkoutTab = new TabItem(tabFolder, SWT.NONE);
