@@ -44,12 +44,13 @@ public class NewWorkoutTab extends Tab {
 
 	CLabel lblInvalidInput;
 	Button btnSubmit;
+	StringBuilder yourWorkoutIntroBldr; //intro label for yourWorkoutTab
 
 	HashMap<String, HashMap<String, Boolean>> selectedValues = new HashMap<String, HashMap<String, Boolean>>();
 
 	StringBuilder errMsg = new StringBuilder("Error:");
 
-	public NewWorkoutTab(TabFolder tabFolder, YourWorkoutTab tabYourWorkout/* TabItem yourWorkoutTab */) {
+	public NewWorkoutTab(TabFolder tabFolder, YourWorkoutTab tabYourWorkout) {
 
 		newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		newWorkoutTab.setText("New workout");
@@ -58,42 +59,56 @@ public class NewWorkoutTab extends Tab {
 		newWorkoutTab.setControl(newWorkoutComposite);
 		newWorkoutComposite.setLayout(null);
 
-		setLabel(newWorkoutComposite, "Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.", 88, 10, 820, 25, SWT.CENTER,
-				SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		setLabel(newWorkoutComposite,
+				"Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.",
+				88, 10, 820, 25, SWT.CENTER, SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 
 		//Aesthetic goals button group
 		aestheticGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		aestheticGoalsComposite.setBounds(31, 70, 769, 49);
-		setLabel(aestheticGoalsComposite, aestheticGoalsKey, 0, 0, 166, 39, 0, SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
-		setButton(aestheticGoalsComposite, aestheticGoalsKey, buildMassKey, SWT.RADIO, 195, -1, 136, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
-		setButton(aestheticGoalsComposite, aestheticGoalsKey, burnFatKey, SWT.RADIO, 401, -1, 116, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
-		setButton(aestheticGoalsComposite, aestheticGoalsKey, naKey, SWT.RADIO, 594, -1, 122, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		setLabel(aestheticGoalsComposite, aestheticGoalsKey, 0, 0, 166, 39, 0,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		setButton(aestheticGoalsComposite, aestheticGoalsKey, buildMassKey, SWT.RADIO, 195, -1, 136, 40,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		setButton(aestheticGoalsComposite, aestheticGoalsKey, burnFatKey, SWT.RADIO, 401, -1, 116, 40,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		setButton(aestheticGoalsComposite, aestheticGoalsKey, naKey, SWT.RADIO, 594, -1, 122, 40,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 
 		//Performance goals button group
 		performanceGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		performanceGoalsComposite.setBounds(31, 125, 769, 49);
-		setLabel(performanceGoalsComposite, performanceGoalsKey, 0, 0, 178, 39, 0, SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
-		setButton(performanceGoalsComposite, performanceGoalsKey, gainStrengthKey, SWT.RADIO, 195, -1, 135, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
-		setButton(performanceGoalsComposite, performanceGoalsKey, gainEnduranceKey, SWT.RADIO, 401, -1, 157, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
-		setButton(performanceGoalsComposite, performanceGoalsKey, naKey, SWT.RADIO, 596, -1, 98, 40, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		setLabel(performanceGoalsComposite, performanceGoalsKey, 0, 0, 178, 39, 0,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		setButton(performanceGoalsComposite, performanceGoalsKey, gainStrengthKey, SWT.RADIO, 195, -1, 135, 40,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		setButton(performanceGoalsComposite, performanceGoalsKey, gainEnduranceKey, SWT.RADIO, 401, -1, 157, 40,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		setButton(performanceGoalsComposite, performanceGoalsKey, naKey, SWT.RADIO, 596, -1, 98, 40,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 
 		//Current weight form
 		currentWeightComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		currentWeightComposite.setBounds(31, 190, 769, 49);
-		setLabel(currentWeightComposite, currentWeightKey, 0, 0, 179, 39, 0, SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
-		currentWeightText = setTextInputField(currentWeightComposite, currentWeightText, SWT.BORDER, 185, 0, 160, 39, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		setLabel(currentWeightComposite, currentWeightKey, 0, 0, 179, 39, 0,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		currentWeightText = setTextInputField(currentWeightComposite, currentWeightText, SWT.BORDER, 185, 0, 160, 39,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 
 		//Goal weight form
 		goalWeightComposite = new Composite(newWorkoutComposite, SWT.NONE);
 		goalWeightComposite.setBounds(31, 250, 769, 64);
-		setLabel(goalWeightComposite, goalWeightKey, 0, 0, 164, 54, 0, SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
-		goalWeightText = setTextInputField(goalWeightComposite, goalWeightText, SWT.BORDER, 185, 0, 160, 39, SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
+		setLabel(goalWeightComposite, goalWeightKey, 0, 0, 164, 54, 0,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		goalWeightText = setTextInputField(goalWeightComposite, goalWeightText, SWT.BORDER, 185, 0, 160, 39,
+				SWTResourceManager.getFont("Segoe UI", 14, SWT.NORMAL));
 
 		//Invalid input label
 		lblInvalidInput = new CLabel(newWorkoutComposite, SWT.NONE);
 		lblInvalidInput.setAlignment(SWT.CENTER);
 		lblInvalidInput.setBounds(31, 396, 936, 21);
 		lblInvalidInput.setText(errMsg.toString());
+		lblInvalidInput.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblInvalidInput.setVisible(false);
 
 		//Submit button
@@ -105,16 +120,24 @@ public class NewWorkoutTab extends Tab {
 			public void handleEvent(Event e) {
 				switch (e.type) {
 					case SWT.Selection:
+						yourWorkoutIntroBldr = new StringBuilder("Based on your goal(s) of: ");
 						if(isValidSelections() && isValidWeightData()) {
-							WorkoutIndexEngine workoutIndexEngine = new WorkoutIndexEngine(selectedValues, Integer.parseInt(currentWeightText.getText()), Integer.parseInt(goalWeightText.getText()));
-							lblInvalidInput.setVisible(false);
+							lblInvalidInput.setVisible(false); //hide the error message
+							yourWorkoutIntroBldr.append("your workout is:");
+							//calculate the workout index
+							WorkoutIndexEngine workoutIndexEngine = new WorkoutIndexEngine(selectedValues,
+									Integer.parseInt(currentWeightText.getText()),
+									Integer.parseInt(goalWeightText.getText()));
+							tabYourWorkout.setIntroLabelText(yourWorkoutIntroBldr.toString()); //set the intro label in yourWorkout tab
 							tabYourWorkout.setWorkout(workoutIndexEngine.getWorkoutIndex()); //send the workout index to the yourWorkout tab
-							tabFolder.setSelection(1);
+							yourWorkoutIntroBldr.setLength(0); //reset the intro label
+							tabFolder.setSelection(1); //navigate to the yourWorkout tab to display the results
 						} else {
 							lblInvalidInput.setText(errMsg.toString());
 							lblInvalidInput.setVisible(true);
 							errMsg.setLength(0); //reset error message
 							errMsg.append("Error: ");
+							yourWorkoutIntroBldr.setLength(0);
 						}
 				}
 			}
@@ -136,21 +159,25 @@ public class NewWorkoutTab extends Tab {
 					case buildMassKey:
 						if(selected) {
 							validResponseCounter++;
+							yourWorkoutIntroBldr.append(buildMassKey + " - ");
 							break;
 						}
 					case burnFatKey:
 						if(selected) {
 							validResponseCounter++;
+							yourWorkoutIntroBldr.append(burnFatKey + " - ");
 							break;
 						}
 					case gainStrengthKey:
 						if(selected) {
 							validResponseCounter++;
+							yourWorkoutIntroBldr.append(gainStrengthKey + " - ");
 							break;
 						}
 					case gainEnduranceKey:
 						if(selected) {
 							validResponseCounter++;
+							yourWorkoutIntroBldr.append(gainEnduranceKey + " - ");
 							break;
 						}
 					case naKey:
@@ -207,7 +234,8 @@ public class NewWorkoutTab extends Tab {
 	}
 
 	@Override
-	public void setButton(Composite composite, String categoryKey, String buttonKey, int buttonType, int boundX, int boundY, int boundW, int boundH, Font font) {
+	public void setButton(Composite composite, String categoryKey, String buttonKey, int buttonType, int boundX,
+			int boundY, int boundW, int boundH, Font font) {
 
 		Button button = new Button(composite, buttonType);
 		button.setBounds(boundX, boundY, boundW, boundH);

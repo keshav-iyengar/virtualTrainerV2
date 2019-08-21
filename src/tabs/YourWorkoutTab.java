@@ -5,6 +5,7 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import engines.CompileWorkoutEngine;
 
@@ -14,6 +15,7 @@ public class YourWorkoutTab extends Tab {
 	Composite yourWorkoutComposite;
 	TabFolder tabFolder;
 	Browser browser;
+	String introLabelText;
 
 	public YourWorkoutTab(TabFolder tFolder) {
 		tabFolder = tFolder;
@@ -31,6 +33,10 @@ public class YourWorkoutTab extends Tab {
 		return this.yourWorkoutComposite;
 	}
 
+	public void setIntroLabelText(String text) {
+		this.introLabelText = text;
+	}
+
 	/*
 	 * Display the workout in the tab.
 	 */
@@ -39,9 +45,11 @@ public class YourWorkoutTab extends Tab {
 		yourWorkoutTab.setControl(yourWorkoutComposite);
 		CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(index);
 
-		browser = new Browser(yourWorkoutComposite, SWT.NONE);
-		browser.setBounds(89, 183, 420, 326);
+		this.setLabel(yourWorkoutComposite, introLabelText, 89, 69, 822, 21, SWT.CENTER,
+				SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
 
+		browser = new Browser(yourWorkoutComposite, SWT.NONE);
+		browser.setBounds(89, 96, 822, 495);
 		browser.setText(compileWorkoutEngine.getWorkoutHTML(compileWorkoutEngine.compileWorkout()));
 
 	}
