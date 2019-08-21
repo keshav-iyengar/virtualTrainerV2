@@ -108,12 +108,7 @@ public class NewWorkoutTab extends Tab {
 						if(isValidSelections() && isValidWeightData()) {
 							WorkoutIndexEngine workoutIndexEngine = new WorkoutIndexEngine(selectedValues, Integer.parseInt(currentWeightText.getText()), Integer.parseInt(goalWeightText.getText()));
 							lblInvalidInput.setVisible(false);
-							tabYourWorkout.setWorkout(workoutIndexEngine.getWorkoutIndex());
-							//							Composite yourWorkoutComposite = new Composite(tabFolder, SWT.NONE);
-							//							yourWorkoutTab.setControl(yourWorkoutComposite);
-							//							CLabel lblTestLabel = new CLabel(yourWorkoutComposite, SWT.NONE);
-							//							lblTestLabel.setBounds(118, 85, 208, 21);
-							//							lblTestLabel.setText(String.valueOf(workoutIndexEngine.getWorkoutIndex()));
+							tabYourWorkout.setWorkout(workoutIndexEngine.getWorkoutIndex()); //send the workout index to the yourWorkout tab
 							tabFolder.setSelection(1);
 						} else {
 							lblInvalidInput.setText(errMsg.toString());

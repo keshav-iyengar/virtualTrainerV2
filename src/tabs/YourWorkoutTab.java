@@ -31,6 +31,9 @@ public class YourWorkoutTab extends Tab {
 		return this.yourWorkoutComposite;
 	}
 
+	/*
+	 * Display the workout in the tab.
+	 */
 	public void setWorkout(int[] index) {
 		yourWorkoutComposite = new Composite(tabFolder, SWT.None);
 		yourWorkoutTab.setControl(yourWorkoutComposite);
@@ -38,7 +41,8 @@ public class YourWorkoutTab extends Tab {
 
 		browser = new Browser(yourWorkoutComposite, SWT.NONE);
 		browser.setBounds(89, 183, 420, 326);
-		browser.setText("<html>line1<br>line2<br>" + "index: " + index + "</html>");
+
+		browser.setText(compileWorkoutEngine.getWorkoutHTML(compileWorkoutEngine.compileWorkout()));
 
 	}
 }

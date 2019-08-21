@@ -16,9 +16,9 @@ public class CompileWorkoutEngine {
 
 	}
 
-	interface Exercise {
+	public interface Exercise {
 
-		void getData();
+		String getDataHtml();
 
 	}
 
@@ -38,9 +38,9 @@ public class CompileWorkoutEngine {
 		}
 
 		@Override
-		public void getData() {
-			// TODO Auto-generated method stub
-
+		public String getDataHtml() {
+			return "<tr><td>" + exerciseId + "</td><td>" + String.valueOf(sets) + "</td><td>" + String.valueOf(reps) + "</td><td>" + String.valueOf(weight) + "</td><td>" + String.valueOf(rest)
+					+ "</td></tr>";
 		}
 	}
 
@@ -60,12 +60,15 @@ public class CompileWorkoutEngine {
 		}
 
 		@Override
-		public void getData() {
-			// TODO Auto-generated method stub
-
+		public String getDataHtml() {
+			return "<tr><td>" + exerciseId + "</td><td>" + String.valueOf(sets) + "</td><td>" + String.valueOf(distance) + "</td><td>" + String.valueOf(time) + "</td><td>" + String.valueOf(rest)
+					+ "</td></tr>";
 		}
 	}
 
+	/*
+	 * Select/calculate a workout based on the user's goals.
+	 */
 	public ArrayList<Exercise> compileWorkout() {
 
 		int i = weightGoalsIndex;
@@ -87,6 +90,7 @@ public class CompileWorkoutEngine {
 					workout.add(new WeightedExercise("Squats", 3, 8, 45, 1.5));
 					workout.add(new CardioExercise("Run", 1, 3, 30, 0));
 				}
+				break;
 			case 5:
 				workout.add(new CardioExercise("Warm-up jog", 1, .5, 5, 0));
 				workout.add(new WeightedExercise("Situps", 3, 20, 0, 1));
@@ -95,11 +99,27 @@ public class CompileWorkoutEngine {
 				workout.add(new WeightedExercise("Military press", 3, 10, 70, 1));
 				workout.add(new WeightedExercise("Squats", 3, 10, 135, 1));
 				workout.add(new CardioExercise("Sprints", 3, .25, 2, 2));
+				break;
 			case 10:
 				workout.add(new WeightedExercise("Bench press", i, 15 - i, 20 * i, i / 4));
 				workout.add(new WeightedExercise("Deadlift", i, 15 - i, 20 * i, i / 4));
 				workout.add(new WeightedExercise("Squats", i, 15 - i, 20 * i, i / 4));
+				break;
 		}
 		return workout;
+	}
+
+	/*
+	 * Returns an html markup of the workout so that it can be displayed as a table.
+	 */
+	public String getWorkoutHTML(ArrayList<Exercise> wkout) {
+		StringBuilder stringBuilder = new StringBuilder("<html><body><table><tr><th>Exercise</th><th>Sets</th><th>Reps/dist.</th><th>weight/time</th><th>rest</th></tr>");
+
+		for(Exercise exercise : workout) {
+			stringBuilder.append(exercise.getDataHtml());
+		}
+
+		stringBuilder.append("</table></body></html>");
+		return stringBuilder.toString();
 	}
 }
