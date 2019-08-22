@@ -7,11 +7,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import swing2swt.layout.BorderLayout;
+import tabs.HomeTab;
 import tabs.NewWorkoutTab;
 import tabs.YourWorkoutTab;
 
@@ -70,12 +70,37 @@ public class Main {
 		TabFolder tabFolder = new TabFolder(shlVirtualTrainer, SWT.NONE);
 		tabFolder.setLayoutData(BorderLayout.CENTER);
 
-		TabItem homeTab = new TabItem(tabFolder, SWT.NONE);
-		homeTab.setText("Home");
-
+		HomeTab homeTab = new HomeTab(tabFolder);
 		YourWorkoutTab yourWorkoutTab = new YourWorkoutTab(tabFolder);
 		NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder, yourWorkoutTab);
 
+		//		TabItem homeTab = new TabItem(tabFolder, SWT.NONE);
+		//		homeTab.setText("Home");
+		//
+		//		Composite composite = new Composite(tabFolder, SWT.NONE);
+		//		homeTab.setControl(composite);
+		//		formToolkit.paintBordersFor(composite);
+		//		composite.setLayout(null);
+		//
+		//		CLabel lblVirtualTrainerIs = new CLabel(composite, SWT.NONE);
+		//		lblVirtualTrainerIs.setAlignment(SWT.CENTER);
+		//		lblVirtualTrainerIs.setBounds(10, 73, 979, 70);
+		//		formToolkit.adapt(lblVirtualTrainerIs);
+		//		formToolkit.paintBordersFor(lblVirtualTrainerIs);
+		//		lblVirtualTrainerIs.setText(
+		//				"Virtual Trainer is a tool that enables you to achieve your fitness goals with greater ease. Whereas a personal trainer would drain your wallet, VT is free.\n"
+		//						+ "Simply enter your fitness goals in the 'New Workout' tab, and the Trainer will output a workout"
+		//						+ "that will help achieve those goals, personally catered to you. ");
+		//
+		//		CLabel lblVirtualTrainer = new CLabel(composite, SWT.NONE);
+		//		lblVirtualTrainer.setForeground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
+		//		lblVirtualTrainer.setFont(SWTResourceManager.getFont("Segoe UI", 14, SWT.BOLD));
+		//		lblVirtualTrainer.setAlignment(SWT.CENTER);
+		//		lblVirtualTrainer.setBounds(268, 10, 471, 51);
+		//		formToolkit.adapt(lblVirtualTrainer);
+		//		formToolkit.paintBordersFor(lblVirtualTrainer);
+		//		lblVirtualTrainer.setText("Virtual Trainer");
+		//
 		//		TabItem yourWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		//		yourWorkoutTab.setText("Your workout");
 		//

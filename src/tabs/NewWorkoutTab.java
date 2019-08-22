@@ -8,6 +8,7 @@ import static constants.Constants.gainEnduranceKey;
 import static constants.Constants.gainStrengthKey;
 import static constants.Constants.goalWeightKey;
 import static constants.Constants.naKey;
+import static constants.Constants.newWorkoutIntro;
 import static constants.Constants.performanceGoalsKey;
 import static constants.Constants.submitKey;
 
@@ -59,9 +60,8 @@ public class NewWorkoutTab extends Tab {
 		newWorkoutTab.setControl(newWorkoutComposite);
 		newWorkoutComposite.setLayout(null);
 
-		setLabel(newWorkoutComposite,
-				"Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.",
-				88, 10, 820, 25, SWT.CENTER, SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		setLabel(newWorkoutComposite, newWorkoutIntro, 88, 10, 820, 25, SWT.CENTER,
+				SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 
 		//Aesthetic goals button group
 		aestheticGoalsComposite = new Composite(newWorkoutComposite, SWT.NONE);

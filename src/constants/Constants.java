@@ -30,4 +30,10 @@ public final class Constants {
 	public static final String warmUpJog = "Warm-up jog";
 	public static final String burpees = "Burpees";
 
+	public static final String homeTabHeader = "Virtual Trainer";
+	public static final String homeTabIntro = "Virtual Trainer is a tool that enables you to achieve your fitness goals with greater ease. Whereas a personal trainer would drain your wallet, \nVT is free."
+			+ " Simply enter your fitness goals in the 'New Workout' tab, and the Trainer will output a workout"
+			+ " that will help achieve those goals. ";
+	public static final String newWorkoutIntro = "Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.";
+
 }
