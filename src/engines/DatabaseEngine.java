@@ -42,7 +42,7 @@ public class DatabaseEngine {
 		try {
 			System.out.println("Retrieving records...");
 			ResultSet rs = stmt.executeQuery(query);
-			System.out.println("Records inserted. ");
+			System.out.println("Records retrieved. ");
 			return rs.getString(0);
 		} catch(SQLException se) {
 			se.printStackTrace();

@@ -38,7 +38,8 @@ public class YourWorkoutTab extends Tab {
 	}
 
 	/*
-	 * Display the workout in the tab.
+	 * Display the workout in the tab. Called by NewWorkoutTab after user
+	 * preferences are submitted.
 	 */
 	public void setWorkout(int[] index) {
 		yourWorkoutComposite = new Composite(tabFolder, SWT.None);
