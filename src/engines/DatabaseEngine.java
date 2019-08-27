@@ -13,7 +13,7 @@ public class DatabaseEngine {
 	Connection conn = null;
 	Statement stmt = null;
 
-	public DatabaseEngine(String qry) {
+	public DatabaseEngine() {
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, "root", "root");
