@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import engines.CompileWorkoutEngine;
-import engines.DatabaseEngine;
 
 public class YourWorkoutTab extends Tab {
 
@@ -23,17 +22,18 @@ public class YourWorkoutTab extends Tab {
 	Browser browser;
 	String introLabelText;
 
-	DatabaseEngine dbEngine = new DatabaseEngine();
+	SavedWorkoutsTab savedWorkoutsTab;
 
-	public YourWorkoutTab(TabFolder tFolder) {
+	public YourWorkoutTab(TabFolder tFolder, SavedWorkoutsTab savedWkoutsTab) {
+
 		super(tFolder);
 		tabFolder = tFolder;
-		//yourWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		yourWorkoutTab = this.tab;
 		yourWorkoutTab.setText("Your workout");
-		//yourWorkoutComposite = new Composite(tabFolder, SWT.NONE);
 		yourWorkoutComposite = this.composite;
 		yourWorkoutTab.setControl(yourWorkoutComposite);
+
+		savedWorkoutsTab = savedWkoutsTab;
 	}
 
 	public TabItem getTab() {
@@ -53,6 +53,7 @@ public class YourWorkoutTab extends Tab {
 	 * preferences are submitted.
 	 */
 	public void setWorkout(int[] index) {
+
 		yourWorkoutComposite = new Composite(tabFolder, SWT.None);
 		yourWorkoutTab.setControl(yourWorkoutComposite);
 		CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(index);
@@ -70,7 +71,7 @@ public class YourWorkoutTab extends Tab {
 				SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
 		b.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				dbEngine.writeToDB("INSERT INTO workouts VALUES ('" + String.valueOf(2) + "', '" + workoutHtml + "')");
+				savedWorkoutsTab.saveWorkout(workoutHtml);
 			}
 		});
 

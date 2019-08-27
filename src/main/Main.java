@@ -13,6 +13,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import swing2swt.layout.BorderLayout;
 import tabs.HomeTab;
 import tabs.NewWorkoutTab;
+import tabs.SavedWorkoutsTab;
 import tabs.YourWorkoutTab;
 
 public class Main {
@@ -71,7 +72,8 @@ public class Main {
 		tabFolder.setLayoutData(BorderLayout.CENTER);
 
 		HomeTab homeTab = new HomeTab(tabFolder);
-		YourWorkoutTab yourWorkoutTab = new YourWorkoutTab(tabFolder);
+		SavedWorkoutsTab savedWorkoutsTab = new SavedWorkoutsTab(tabFolder);
+		YourWorkoutTab yourWorkoutTab = new YourWorkoutTab(tabFolder, savedWorkoutsTab);
 		NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder, yourWorkoutTab);
 
 		//		TabItem homeTab = new TabItem(tabFolder, SWT.NONE);
