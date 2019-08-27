@@ -35,7 +35,6 @@ public class YourWorkoutTab extends Tab {
 
 	public void setIntroLabelText(String text) {
 		this.introLabelText = text;
-		//test branch comment
 	}
 
 	/*
