@@ -33,6 +33,7 @@ public class DatabaseEngine {
 			stmt.executeUpdate(query);
 			System.out.println("Records inserted. ");
 		} catch(SQLException se) {
+			System.out.println("Insert failed.");
 			se.printStackTrace();
 		}
 
