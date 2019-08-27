@@ -29,7 +29,6 @@ public class WorkoutIndexEngine {
 		this.currentWeight = cWeight;
 		this.goalWeight = gWeight;
 		this.workoutIndex = determineCategory(getFitnessGoalsIndex(), getWeightGoalsIndex());
-		//CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(this.workoutIndex);
 
 	}
 
@@ -39,7 +38,6 @@ public class WorkoutIndexEngine {
 
 	public int[] determineCategory(int fitIndex, int weightIndex) {
 
-		//return (fitIndex * 10) + weightIndex;
 		return new int[] { fitIndex, weightIndex };
 
 	}
