@@ -36,4 +36,6 @@ public final class Constants {
 			+ " that will help achieve those goals. ";
 	public static final String newWorkoutIntro = "Tell the trainer your fitness goals! Hit submit when you're done to see your personalized workout.";
 
+	public static final String saveWorkout = "Save workout";
+
 }

@@ -1,7 +1,10 @@
 package tabs;
 
+import static constants.Constants.saveWorkout;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -18,10 +21,13 @@ public class YourWorkoutTab extends Tab {
 	String introLabelText;
 
 	public YourWorkoutTab(TabFolder tFolder) {
+		super(tFolder);
 		tabFolder = tFolder;
-		yourWorkoutTab = new TabItem(tabFolder, SWT.NONE);
+		//yourWorkoutTab = new TabItem(tabFolder, SWT.NONE);
+		yourWorkoutTab = this.tab;
 		yourWorkoutTab.setText("Your workout");
-		yourWorkoutComposite = new Composite(tabFolder, SWT.NONE);
+		//yourWorkoutComposite = new Composite(tabFolder, SWT.NONE);
+		yourWorkoutComposite = this.composite;
 		yourWorkoutTab.setControl(yourWorkoutComposite);
 	}
 
@@ -52,6 +58,9 @@ public class YourWorkoutTab extends Tab {
 		browser = new Browser(yourWorkoutComposite, SWT.NONE);
 		browser.setBounds(89, 96, 822, 495);
 		browser.setText(compileWorkoutEngine.getWorkoutHTML(compileWorkoutEngine.compileWorkout()));
+
+		Button b = setButton(yourWorkoutComposite, saveWorkout, SWT.NONE, 470, 608, 75, 25,
+				SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
 
 	}
 }

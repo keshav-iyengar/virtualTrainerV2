@@ -53,11 +53,15 @@ public class NewWorkoutTab extends Tab {
 
 	public NewWorkoutTab(TabFolder tabFolder, YourWorkoutTab tabYourWorkout) {
 
-		newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
+		super(tabFolder);
+
+		//newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
+		newWorkoutTab = this.tab;
 		newWorkoutTab.setText("New workout");
 
-		newWorkoutComposite = new Composite(tabFolder, SWT.NONE);
-		newWorkoutTab.setControl(newWorkoutComposite);
+		//		newWorkoutComposite = new Composite(tabFolder, SWT.NONE);
+		//		newWorkoutTab.setControl(newWorkoutComposite);
+		newWorkoutComposite = this.composite;
 		newWorkoutComposite.setLayout(null);
 
 		setLabel(newWorkoutComposite, newWorkoutIntro, 88, 10, 820, 25, SWT.CENTER,
@@ -233,7 +237,6 @@ public class NewWorkoutTab extends Tab {
 
 	}
 
-	@Override
 	public void setButton(Composite composite, String categoryKey, String buttonKey, int buttonType, int boundX,
 			int boundY, int boundW, int boundH, Font font) {
 
