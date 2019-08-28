@@ -14,10 +14,11 @@ public class Tab {
 	TabItem tab;
 	Composite composite;
 
-	public Tab(TabFolder tabFolder) {
+	public Tab(TabFolder tabFolder, String title) {
 		this.tab = new TabItem(tabFolder, SWT.NONE);
 		this.composite = new Composite(tabFolder, SWT.NONE);
 		tab.setControl(composite);
+		tab.setText(title);
 	}
 
 	public void setLabel(Composite composite, String labelText, int boundX, int boundY, int boundW, int boundH,
@@ -27,6 +28,11 @@ public class Tab {
 		label.setBounds(boundX, boundY, boundW, boundH);
 		label.setText(labelText);
 		label.setFont(font);
+	}
+
+	public void setComposite(Composite composite) {
+		this.composite = composite;
+		tab.setControl(this.composite);
 	}
 
 	/*

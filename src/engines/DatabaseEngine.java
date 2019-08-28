@@ -44,7 +44,8 @@ public class DatabaseEngine {
 			System.out.println("Retrieving records...");
 			ResultSet rs = stmt.executeQuery(query);
 			System.out.println("Records retrieved. ");
-			return rs.getString(0);
+			rs.next();
+			return rs.getString(2);
 		} catch(SQLException se) {
 			se.printStackTrace();
 			return "Read failed";

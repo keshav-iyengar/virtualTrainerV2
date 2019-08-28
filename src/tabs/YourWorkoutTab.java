@@ -21,27 +21,19 @@ public class YourWorkoutTab extends Tab {
 	TabFolder tabFolder;
 	Browser browser;
 	String introLabelText;
-
 	SavedWorkoutsTab savedWorkoutsTab;
 
-	public YourWorkoutTab(TabFolder tFolder, SavedWorkoutsTab savedWkoutsTab) {
+	public YourWorkoutTab(TabFolder tFolder) {
 
-		super(tFolder);
+		super(tFolder, "Your workout");
 		tabFolder = tFolder;
 		yourWorkoutTab = this.tab;
-		yourWorkoutTab.setText("Your workout");
 		yourWorkoutComposite = this.composite;
-		yourWorkoutTab.setControl(yourWorkoutComposite);
-
-		savedWorkoutsTab = savedWkoutsTab;
+		savedWorkoutsTab = new SavedWorkoutsTab(tFolder, this);
 	}
 
 	public TabItem getTab() {
 		return this.yourWorkoutTab;
-	}
-
-	public Composite getComposite() {
-		return this.yourWorkoutComposite;
 	}
 
 	public void setIntroLabelText(String text) {
@@ -52,28 +44,39 @@ public class YourWorkoutTab extends Tab {
 	 * Display the workout in the tab. Called by NewWorkoutTab after user
 	 * preferences are submitted.
 	 */
-	public void setWorkout(int[] index) {
+	public void setWorkout(int[] index, String html) {
 
 		yourWorkoutComposite = new Composite(tabFolder, SWT.None);
 		yourWorkoutTab.setControl(yourWorkoutComposite);
-		CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(index);
-
-		this.setLabel(yourWorkoutComposite, introLabelText, 89, 69, 822, 21, SWT.CENTER,
-				SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
 
 		browser = new Browser(yourWorkoutComposite, SWT.NONE);
 		browser.setBounds(89, 96, 822, 495);
-		String workoutHtml = compileWorkoutEngine.getWorkoutHTML(compileWorkoutEngine.compileWorkout());
-		browser.setText(workoutHtml);
 
-		//save workout button
-		Button b = setButton(yourWorkoutComposite, saveWorkout, SWT.NONE, 470, 608, 75, 25,
-				SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
-		b.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				savedWorkoutsTab.saveWorkout(workoutHtml);
-			}
-		});
+		if(index != null && html.equalsIgnoreCase(" ")) { //case calculate workout
+
+			CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(index);
+			this.setLabel(yourWorkoutComposite, introLabelText, 89, 69, 822, 21, SWT.CENTER,
+					SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
+			String workoutHtml = compileWorkoutEngine.getWorkoutHTML(compileWorkoutEngine.compileWorkout());
+			browser.setText(workoutHtml);
+
+			//save workout button
+			Button b = setButton(yourWorkoutComposite, saveWorkout, SWT.NONE, 470, 608, 75, 25,
+					SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
+			b.addListener(SWT.Selection, new Listener() {
+				public void handleEvent(Event event) {
+					savedWorkoutsTab.setSavedWorkoutHtml(workoutHtml);
+					savedWorkoutsTab.saveWorkout();
+					tabFolder.setSelection(2);
+				}
+			});
+
+		} else if(index == null && !html.equalsIgnoreCase(" ")) { //case display saved workout
+			this.setLabel(yourWorkoutComposite, "Saved workout", 89, 69, 822, 21, SWT.CENTER,
+					SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
+			browser.setText(html);
+
+		} else System.out.println("Error in setWorkout");
 
 	}
 }

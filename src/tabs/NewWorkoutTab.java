@@ -53,14 +53,8 @@ public class NewWorkoutTab extends Tab {
 
 	public NewWorkoutTab(TabFolder tabFolder, YourWorkoutTab tabYourWorkout) {
 
-		super(tabFolder);
-
-		//newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
+		super(tabFolder, "New workout");
 		newWorkoutTab = this.tab;
-		newWorkoutTab.setText("New workout");
-
-		//		newWorkoutComposite = new Composite(tabFolder, SWT.NONE);
-		//		newWorkoutTab.setControl(newWorkoutComposite);
 		newWorkoutComposite = this.composite;
 		newWorkoutComposite.setLayout(null);
 
@@ -133,7 +127,7 @@ public class NewWorkoutTab extends Tab {
 									Integer.parseInt(currentWeightText.getText()),
 									Integer.parseInt(goalWeightText.getText()));
 							tabYourWorkout.setIntroLabelText(yourWorkoutIntroBldr.toString()); //set the intro label in yourWorkout tab
-							tabYourWorkout.setWorkout(workoutIndexEngine.getWorkoutIndex()); //send the workout index to the yourWorkout tab
+							tabYourWorkout.setWorkout(workoutIndexEngine.getWorkoutIndex(), " "); //send the workout index to the yourWorkout tab
 							yourWorkoutIntroBldr.setLength(0); //reset the intro label
 							tabFolder.setSelection(1); //navigate to the yourWorkout tab to display the results
 						} else {
