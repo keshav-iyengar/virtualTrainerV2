@@ -13,7 +13,9 @@ public class DatabaseEngine {
 	Connection conn = null;
 	Statement stmt = null;
 
-	public DatabaseEngine() {
+	public DatabaseEngine() {}
+
+	public void openConnection() {
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, "root", "root");
@@ -52,8 +54,13 @@ public class DatabaseEngine {
 		}
 	}
 
-	public void closeConnection() throws SQLException {
-		conn.close();
+	public void closeConnection() {
+		try {
+			conn.close();
+		} catch(SQLException se) {
+			System.out.println("Close connection failed.");
+			se.printStackTrace();
+		}
 	}
 
 }

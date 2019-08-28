@@ -4,12 +4,15 @@ import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import engines.DatabaseEngine;
 import swing2swt.layout.BorderLayout;
 import tabs.HomeTab;
 import tabs.NewWorkoutTab;
@@ -61,6 +64,14 @@ public class Main {
 		shlVirtualTrainer.setSize(1023, 739);
 		shlVirtualTrainer.setText("Virtual Trainer");
 		shlVirtualTrainer.setLayout(new BorderLayout(0, 0));
+		shlVirtualTrainer.addListener(SWT.Close, new Listener() {
+			public void handleEvent(Event event) {
+				DatabaseEngine dbEng = new DatabaseEngine();
+				dbEng.openConnection();
+				dbEng.writeToDB("DELETE FROM workouts");
+				dbEng.closeConnection();
+			}
+		});
 
 		Label introLabel = new Label(shlVirtualTrainer, SWT.NONE);
 		introLabel.setAlignment(SWT.CENTER);
@@ -72,7 +83,6 @@ public class Main {
 
 		HomeTab homeTab = new HomeTab(tabFolder);
 		YourWorkoutTab yourWorkoutTab = new YourWorkoutTab(tabFolder);
-		//SavedWorkoutsTab savedWorkoutsTab = new SavedWorkoutsTab(tabFolder, yourWorkoutTab);
 		NewWorkoutTab newWorkoutTab = new NewWorkoutTab(tabFolder, yourWorkoutTab);
 
 		//		TabItem homeTab = new TabItem(tabFolder, SWT.NONE);
