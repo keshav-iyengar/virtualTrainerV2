@@ -62,11 +62,12 @@ public class SavedWorkoutsTab extends Tab {
 			int id = i;
 			String html = dbEngine.readFromDB("SELECT * FROM workouts WHERE id = " + String.valueOf(id));
 
-			//link that points to saved workout
 			if(!html.equals("Read failed")) {
+				//link that points to saved workout
 				Link linkSavedWorkout = new Link(savedWorkoutsComposite, SWT.NONE);
 				linkSavedWorkout.addListener(SWT.Selection, new Listener() {
 					public void handleEvent(Event event) {
+						yourWorkoutTab.setIntroLabelText("Saved workout " + String.valueOf(id));
 						yourWorkoutTab.setWorkout(null, html);
 						tabFolder.setSelection(1);
 					}

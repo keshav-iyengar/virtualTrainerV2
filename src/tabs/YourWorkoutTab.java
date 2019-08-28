@@ -52,11 +52,13 @@ public class YourWorkoutTab extends Tab {
 		browser = new Browser(yourWorkoutComposite, SWT.NONE);
 		browser.setBounds(89, 96, 822, 495);
 
+		this.setLabel(yourWorkoutComposite, introLabelText, 89, 69, 822, 21, SWT.CENTER,
+				SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
+
 		if(index != null && html.equalsIgnoreCase(" ")) { //case calculate workout
 
 			CompileWorkoutEngine compileWorkoutEngine = new CompileWorkoutEngine(index);
-			this.setLabel(yourWorkoutComposite, introLabelText, 89, 69, 822, 21, SWT.CENTER,
-					SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
+
 			String workoutHtml = compileWorkoutEngine.getWorkoutHTML(compileWorkoutEngine.compileWorkout());
 			browser.setText(workoutHtml);
 
@@ -72,8 +74,6 @@ public class YourWorkoutTab extends Tab {
 			});
 
 		} else if(index == null && !html.equalsIgnoreCase(" ")) { //case display saved workout
-			this.setLabel(yourWorkoutComposite, "Saved workout", 89, 69, 822, 21, SWT.CENTER,
-					SWTResourceManager.getFont("Segoe UI", 12, SWT.BOLD));
 			browser.setText(html);
 
 		} else System.out.println("Error in setWorkout");
