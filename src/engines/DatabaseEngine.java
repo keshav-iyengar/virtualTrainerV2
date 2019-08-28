@@ -57,6 +57,7 @@ public class DatabaseEngine {
 	public void closeConnection() {
 		try {
 			conn.close();
+			System.out.println("Connection closed.");
 		} catch(SQLException se) {
 			System.out.println("Close connection failed.");
 			se.printStackTrace();
