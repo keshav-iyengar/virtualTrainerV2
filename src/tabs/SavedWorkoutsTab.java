@@ -45,9 +45,9 @@ public class SavedWorkoutsTab extends Tab {
 		dbEngine.openConnection();
 		dbEngine.writeToDB(
 				"INSERT INTO workouts VALUES ('" + String.valueOf(recordId) + "', '" + savedWorkoutHtml + "')");
+		dbEngine.closeConnection();
 		recordId++;
 		displaySavedWorkoutLinks();
-		dbEngine.closeConnection();
 
 	}
 
@@ -92,6 +92,22 @@ public class SavedWorkoutsTab extends Tab {
 
 		}
 
+		//clear all saved workouts
+		Link linkClearAll = new Link(savedWorkoutsComposite, SWT.NONE);
+		linkClearAll.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				dbEngine.openConnection();
+				for(int i = 1; i < recordId; i++) {
+					dbEngine.writeToDB("DELETE FROM workouts WHERE id = " + String.valueOf(i));
+				}
+				dbEngine.closeConnection();
+				savedWorkoutsComposite = new Composite(tabFolder, SWT.NONE);
+				savedWorkoutsComposite.setLayout(new GridLayout(2, false));
+				savedWorkoutsTab.setControl(savedWorkoutsComposite);
+				recordId = 1;
+			}
+		});
+		linkClearAll.setText("<a>Clear all</a>");
 	}
 
 }
