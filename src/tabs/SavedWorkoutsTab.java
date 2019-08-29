@@ -60,7 +60,9 @@ public class SavedWorkoutsTab extends Tab {
 		for(int i = 1; i < recordId; i++) {
 
 			int id = i;
+			dbEngine.openConnection();
 			String html = dbEngine.readFromDB("SELECT * FROM workouts WHERE id = " + String.valueOf(id));
+			dbEngine.closeConnection();
 
 			if(!html.equals("Read failed")) {
 				//link that points to saved workout
