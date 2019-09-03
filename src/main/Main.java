@@ -4,12 +4,15 @@ import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import engines.DatabaseEngine;
 import swing2swt.layout.BorderLayout;
 import tabs.HomeTab;
 import tabs.NewWorkoutTab;
@@ -61,6 +64,14 @@ public class Main {
 		shlVirtualTrainer.setSize(1023, 739);
 		shlVirtualTrainer.setText("Virtual Trainer");
 		shlVirtualTrainer.setLayout(new BorderLayout(0, 0));
+		shlVirtualTrainer.addListener(SWT.Close, new Listener() {
+			public void handleEvent(Event event) {
+				DatabaseEngine dbEng = new DatabaseEngine();
+				dbEng.openConnection();
+				dbEng.writeToDB("DELETE FROM workouts");
+				dbEng.closeConnection();
+			}
+		});
 
 		Label introLabel = new Label(shlVirtualTrainer, SWT.NONE);
 		introLabel.setAlignment(SWT.CENTER);
@@ -123,6 +134,11 @@ public class Main {
 		//		formToolkit.adapt(lblYourWorkoutIntro);
 		//		formToolkit.paintBordersFor(lblYourWorkoutIntro);
 		//		lblYourWorkoutIntro.setText("Based on...");
+		//
+		//		Button btnSaveWorkout = new Button(yourWorkoutComposite, SWT.NONE);
+		//		btnSaveWorkout.setBounds(470, 608, 75, 25);
+		//		formToolkit.adapt(btnSaveWorkout, true, true);
+		//		btnSaveWorkout.setText("Save workout");
 		//
 		//		TabItem newWorkoutTab = new TabItem(tabFolder, SWT.NONE);
 		//		newWorkoutTab.setText("New workout");
@@ -248,6 +264,42 @@ public class Main {
 		//				}
 		//			}
 		//		});
+		//
+		//		TabItem tbtmSavedWorkouts = new TabItem(tabFolder, SWT.NONE);
+		//		tbtmSavedWorkouts.setText("Saved workouts");
+		//
+		//		Composite savedWorkoutsComposite = new Composite(tabFolder, SWT.NONE);
+		//		tbtmSavedWorkouts.setControl(savedWorkoutsComposite);
+		//		formToolkit.paintBordersFor(savedWorkoutsComposite);
+		//		savedWorkoutsComposite.setLayout(new GridLayout(2, false));
+		//		new Label(savedWorkoutsComposite, SWT.NONE);
+		//		new Label(savedWorkoutsComposite, SWT.NONE);
+		//
+		//		Link linkSavedWorkout1 = new Link(savedWorkoutsComposite, SWT.NONE);
+		//		formToolkit.adapt(linkSavedWorkout1, true, true);
+		//		linkSavedWorkout1.setText("<a>Saved workout 1</a>");
+		//
+		//		Link linkRm1 = new Link(savedWorkoutsComposite, SWT.NONE);
+		//		formToolkit.adapt(linkRm1, true, true);
+		//		linkRm1.setText("<a>Remove</a>");
+		//
+		//		Link linkSavedWorkout2 = new Link(savedWorkoutsComposite, SWT.NONE);
+		//		formToolkit.adapt(linkSavedWorkout2, true, true);
+		//		linkSavedWorkout2.setText("<a>Saved workout 2</a>");
+		//
+		//		Link linkRm2 = new Link(savedWorkoutsComposite, SWT.NONE);
+		//		formToolkit.adapt(linkRm2, true, true);
+		//		linkRm2.setText("<a>Remove</a>");
+		//
+		//		Link linkSavedWorkout3 = new Link(savedWorkoutsComposite, SWT.NONE);
+		//		formToolkit.adapt(linkSavedWorkout3, true, true);
+		//		linkSavedWorkout3.setText("<a>Saved workout 3</a>");
+		//
+		//		Link linkRm3 = new Link(savedWorkoutsComposite, SWT.NONE);
+		//		formToolkit.adapt(linkRm3, true, true);
+		//		linkRm3.setText("<a>Remove</a>");
+		//		new Label(savedWorkoutsComposite, SWT.NONE);
+		//		new Label(savedWorkoutsComposite, SWT.NONE);
 
 	}
 }

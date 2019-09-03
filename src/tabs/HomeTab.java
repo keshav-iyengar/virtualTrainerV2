@@ -16,11 +16,9 @@ public class HomeTab extends Tab {
 
 	public HomeTab(TabFolder tabFolder) {
 
-		homeTab = new TabItem(tabFolder, SWT.NONE);
-		homeTab.setText("Home");
-
-		homeTabComposite = new Composite(tabFolder, SWT.NONE);
-		homeTab.setControl(homeTabComposite);
+		super(tabFolder, "Home");
+		homeTab = this.tab;
+		homeTabComposite = this.composite;
 		homeTabComposite.setLayout(null);
 
 		setLabel(homeTabComposite, homeTabIntro, 10, 73, 979, 70, 0,

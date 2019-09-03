@@ -13,7 +13,9 @@ public class DatabaseEngine {
 	Connection conn = null;
 	Statement stmt = null;
 
-	public DatabaseEngine(String qry) {
+	public DatabaseEngine() {}
+
+	public void openConnection() {
 		try {
 			Class.forName(JDBC_DRIVER);
 			conn = DriverManager.getConnection(DB_URL, "root", "root");
@@ -33,6 +35,7 @@ public class DatabaseEngine {
 			stmt.executeUpdate(query);
 			System.out.println("Records inserted. ");
 		} catch(SQLException se) {
+			System.out.println("Insert failed.");
 			se.printStackTrace();
 		}
 
@@ -43,15 +46,22 @@ public class DatabaseEngine {
 			System.out.println("Retrieving records...");
 			ResultSet rs = stmt.executeQuery(query);
 			System.out.println("Records retrieved. ");
-			return rs.getString(0);
+			rs.next();
+			return rs.getString(2);
 		} catch(SQLException se) {
 			se.printStackTrace();
 			return "Read failed";
 		}
 	}
 
-	public void closeConnection() throws SQLException {
-		conn.close();
+	public void closeConnection() {
+		try {
+			conn.close();
+			System.out.println("Connection closed.");
+		} catch(SQLException se) {
+			System.out.println("Close connection failed.");
+			se.printStackTrace();
+		}
 	}
 
 }
